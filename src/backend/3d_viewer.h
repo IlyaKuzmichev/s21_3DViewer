@@ -83,7 +83,7 @@ void translate_object(Object_t* obj, axis_t axis, double shift);
  * @param obj - pointer to object structure
  * @param angle - value of the angle to rotate
  */
-void rotate_ox_object(Object_t obj, double angle);
+void rotate_ox_object(Object_t* obj, double angle);
 
 /**
  * @brief Fucntion fo rotate model by a given angle relative to its Y axis
@@ -91,7 +91,7 @@ void rotate_ox_object(Object_t obj, double angle);
  * @param obj - pointer to object structure
  * @param angle - value of the angle to rotate
  */
-void rotate_oy_object(Object_t obj, double angle);
+void rotate_oy_object(Object_t* obj, double angle);
 
 /**
  * @brief Fucntion fo rotate model by a given angle relative to its Z axis
@@ -99,7 +99,7 @@ void rotate_oy_object(Object_t obj, double angle);
  * @param obj - pointer to object structure
  * @param angle - value of the angle to rotate
  */
-void rotate_oz_object(Object_t obj, double angle);
+void rotate_oz_object(Object_t* obj, double angle);
 
 /**
  * @brief Fucntion fo scale model by a given value
@@ -107,4 +107,4 @@ void rotate_oz_object(Object_t obj, double angle);
  * @param obj - pointer to object structure
  * @param scale - value to scale
  */
-void scale_object(Object_t obj, double scale);
+void scale_object(Object_t* obj, double scale);
