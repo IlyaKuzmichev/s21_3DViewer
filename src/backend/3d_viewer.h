@@ -46,18 +46,39 @@
 #pragma once
 
 #include <stdlib.h>
+/**
+ * point_t
+ * @brief Union for point structure
+ */
+typedef union point_u {
+  double arr[3];  ///> to call as array
+  struct {
+    double x;  ///> x coord
+    double y;  ///> y coord
+    double z;  ///> z coord
+  };
+} point_t;
 
 /**
- * Object_t
+ * face_t
+ * @brief face's structure with various points quantity
+ */
+typedef struct face_s {
+  uint64_t v_count;   ///> quantity of faces
+  point_t** v_array;  ///> dynamicly allocated array of points
+} face_t;
+
+/**
+ * object_t
  * @brief Parsed .obj structure
  */
-typedef struct Object_t {
+typedef struct object_s {
   uint64_t v_count;                   ///> number of vertexes
   uint64_t f_count;                   ///> number of faces
   double x_min, x_max, y_min, y_max;  ///> limit values of the object
-  double* v_matrix;   ///> matrice of vertexes (each point has 3 coordinates)
+  point_t* v_array;   ///> matrice of vertexes (each point has 3 coordinates)
   uint64_t* f_array;  ///> array of faces
-} Object_t;
+} object_t;
 
 /**
  * axis_t
@@ -75,7 +96,7 @@ typedef enum axis_t { X_AXIS = 0, Y_AXIS, Z_AXIS } axis_t;
  * @param axis --- x, y or z
  * @param shift --- value of the shift
  */
-void translate_object(Object_t* obj, axis_t axis, double shift);
+void translate_object(object_t* obj, axis_t axis, double shift);
 
 /**
  * @brief Fucntion fo rotate model by a given angle relative to its X axis
@@ -83,7 +104,7 @@ void translate_object(Object_t* obj, axis_t axis, double shift);
  * @param obj - pointer to object structure
  * @param angle - value of the angle to rotate
  */
-void rotate_ox_object(Object_t obj, double angle);
+void rotate_ox_object(object_t* obj, double angle);
 
 /**
  * @brief Fucntion fo rotate model by a given angle relative to its Y axis
@@ -91,7 +112,7 @@ void rotate_ox_object(Object_t obj, double angle);
  * @param obj - pointer to object structure
  * @param angle - value of the angle to rotate
  */
-void rotate_oy_object(Object_t obj, double angle);
+void rotate_oy_object(object_t* obj, double angle);
 
 /**
  * @brief Fucntion fo rotate model by a given angle relative to its Z axis
@@ -99,7 +120,7 @@ void rotate_oy_object(Object_t obj, double angle);
  * @param obj - pointer to object structure
  * @param angle - value of the angle to rotate
  */
-void rotate_oz_object(Object_t obj, double angle);
+void rotate_oz_object(object_t* obj, double angle);
 
 /**
  * @brief Fucntion fo scale model by a given value
@@ -107,4 +128,4 @@ void rotate_oz_object(Object_t obj, double angle);
  * @param obj - pointer to object structure
  * @param scale - value to scale
  */
-void scale_object(Object_t obj, double scale);
+void scale_object(object_t* obj, double scale);
