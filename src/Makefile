@@ -17,7 +17,7 @@ endif
 GCOVFLAGS = -fprofile-arcs -ftest-coverage
 
 TESTS_SOURCES=$(addprefix tests/, test.c)
-SOURCES=
+SOURCES=$(addprefix backend/, affine_transformations.c)
 OBJECTS=$(SOURCES:.c=.o)
 
 FILES_TO_CHECK=$(shell find . -name '*.c' && find . -name '*.h' )
@@ -36,7 +36,7 @@ install: clean $(LIB_NAME)
 	@cd $(BUILD_DIR) && cmake ../$(CMAKE_DIR)
 	make -C $(BUILD_DIR)
 
-open_calc:
+open_viewer:
 	@./$(shell find build -name "$(CMAKE_DIR)")
 
 uninstall:
@@ -93,15 +93,12 @@ main: clean $(LIB_NAME)
 clean: 
 	@rm -rf  $(OBJECTS) build/ $(CMAKE_DIR)/lib$(LIB_NAME) 
 	@rm -rf report/ gcovr/ $(LIB_NAME) *.gcda *.gcno *.gcov *.out *.info *.o coverage.txt *.dSYM
-
-.clang-format:
-	@cp ../materials/linters/.clang-format .
 	
-stylecheck: .clang-format
-	@clang-format -n $(FILES_TO_CHECK)
+stylecheck:
+	@clang-format -n --style=Google $(FILES_TO_CHECK)
 	
-fmt: .clang-format
-	@clang-format -i $(FILES_TO_CHECK)
+fmt:
+	@clang-format -i --style=Google $(FILES_TO_CHECK)
 
 cppcheck:
 	cppcheck --enable=all --suppress=missingIncludeSystem $(FILES_TO_CHECK)
