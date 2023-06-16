@@ -2,7 +2,7 @@
 /* Copyright 2023 © Moscow, Russian Federaion
  *
  * This file contains Original Code created by
- * Michail *** aka sarellad,
+ * Michail Kopylov aka sarellad,
  * Igor Baidikov aka lorenttr,
  * Ilya Kuzmichev aka wilmerno.
  *
