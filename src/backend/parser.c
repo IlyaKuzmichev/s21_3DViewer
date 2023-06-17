@@ -62,7 +62,7 @@ int parse_obj_file(char *path, object_t *obj) {
             v_count = 0;
             while (next_lf != NULL && sscanf(next_lf, "%lld", &v_number) > 0) {
               if (v_number < 0) {
-                v_number = last_v_index - v_number;
+                v_number = last_v_index + v_number;
               } else {
                 v_number -= 1;
               }
@@ -76,6 +76,8 @@ int parse_obj_file(char *path, object_t *obj) {
         }
       }
     }
+
+    fclose(f);
   }
 
   return result;
