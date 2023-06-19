@@ -211,20 +211,314 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>31</y>
-      <width>561</width>
-      <height>432</height>
+      <width>621</width>
+      <height>481</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout_4">
-     <item row="0" column="0" colspan="2">
-      <layout class="QGridLayout" name="gridLayout_2">
+    <layout class="QGridLayout" name="gridLayout_5">
+     <item row="0" column="0">
+      <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_translate">
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0" colspan="2">
+          <widget class="QLabel" name="label_translate">
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Translate Model</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QScrollBar" name="scroll_translate_x">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="line_translate_x">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QScrollBar" name="scroll_translate_y">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="line_translate_y">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QScrollBar" name="scroll_translate_z">
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="line_translate_z">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0" colspan="2">
+          <widget class="QLabel" name="label_rotate">
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Rotate Model</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QScrollBar" name="scroll_rotate_x">
+           <property name="minimum">
+            <number>-180</number>
+           </property>
+           <property name="maximum">
+            <number>180</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="line_rotate_x">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QScrollBar" name="scroll_rotate_y">
+           <property name="minimum">
+            <number>-180</number>
+           </property>
+           <property name="maximum">
+            <number>180</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="line_rotate_y">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QScrollBar" name="scroll_rotate_z">
+           <property name="minimum">
+            <number>-180</number>
+           </property>
+           <property name="maximum">
+            <number>180</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="line_rotate_z">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>80</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_rotate_2">
          <property name="font">
           <font>
            <pointsize>16</pointsize>
@@ -232,25 +526,34 @@
           </font>
          </property>
          <property name="text">
-          <string>Translate Model</string>
+          <string>Scale Model</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QScrollBar" name="scroll_translate_x">
+       <item row="5" column="0">
+        <widget class="QScrollBar" name="scroll_scale">
          <property name="minimum">
-          <number>-100</number>
+          <number>-10</number>
          </property>
          <property name="maximum">
-          <number>100</number>
+          <number>10</number>
+         </property>
+         <property name="singleStep">
+          <number>1</number>
+         </property>
+         <property name="pageStep">
+          <number>1</number>
+         </property>
+         <property name="sliderPosition">
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="line_translate_x">
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="line_scale">
          <property name="minimumSize">
           <size>
            <width>80</width>
@@ -270,89 +573,7 @@
           </size>
          </property>
          <property name="text">
-          <string>0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QScrollBar" name="scroll_translate_y">
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="maximum">
-          <number>100</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="line_translate_y">
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="baseSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QScrollBar" name="scroll_translate_z">
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="maximum">
-          <number>100</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="line_translate_z">
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="baseSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>0</string>
+          <string>1</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -361,17 +582,17 @@
        </item>
       </layout>
      </item>
-     <item row="1" column="0" colspan="2">
-      <widget class="Line" name="line">
+     <item row="1" column="0">
+      <widget class="Line" name="line_4">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     <item row="2" column="0" colspan="2">
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_rotate">
+     <item row="2" column="0">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_type">
          <property name="font">
           <font>
            <pointsize>16</pointsize>
@@ -379,204 +600,35 @@
           </font>
          </property>
          <property name="text">
-          <string>Rotate Model</string>
+          <string>Type of projection</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QScrollBar" name="scroll_rotate_x">
-         <property name="minimum">
-          <number>-180</number>
-         </property>
-         <property name="maximum">
-          <number>180</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="line_rotate_x">
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="baseSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
+       <item>
+        <widget class="QRadioButton" name="radioButton_parallel">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
          </property>
          <property name="text">
-          <string>0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <string>Parallel</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QScrollBar" name="scroll_rotate_y">
-         <property name="minimum">
-          <number>-180</number>
-         </property>
-         <property name="maximum">
-          <number>180</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="line_rotate_y">
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="baseSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
+       <item>
+        <widget class="QRadioButton" name="radioButton_central">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
          </property>
          <property name="text">
-          <string>0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QScrollBar" name="scroll_rotate_z">
-         <property name="minimum">
-          <number>-180</number>
-         </property>
-         <property name="maximum">
-          <number>180</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="line_rotate_z">
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="baseSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <string>Central</string>
          </property>
         </widget>
        </item>
       </layout>
-     </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="Line" name="line_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_rotate_2">
-       <property name="font">
-        <font>
-         <pointsize>16</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Scale Model</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QScrollBar" name="scroll_scale">
-       <property name="minimum">
-        <number>-10</number>
-       </property>
-       <property name="maximum">
-        <number>10</number>
-       </property>
-       <property name="singleStep">
-        <number>1</number>
-       </property>
-       <property name="pageStep">
-        <number>1</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="line_scale">
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>35</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>80</width>
-         <height>35</height>
-        </size>
-       </property>
-       <property name="baseSize">
-        <size>
-         <width>80</width>
-         <height>35</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>
