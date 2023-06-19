@@ -3,12 +3,32 @@
 #include <QFileDialog>
 #include <QOpenGLWidget>
 #include <QColorDialog>
+#include <QAbstractSlider>
 
 #include "./ui_mainwindow.h"
+
+//class SliderAdapter {
+//    Q_OBJECT
+
+//    public:
+//        SliderAdapter(QAbstractSlider* sl): sl_(sl) {
+
+//    }
+//    private slots:
+//        void line_changed() {
+//            sl_->setValue(sender()->text)
+//        }
+//    private:
+//        QAbstractSlider* sl_;
+//};
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+//  connect(ui->scroll_translate_x, SIGNAL(sliderMoved()), this, SLOT(slider_moved()));
+//  connect(ui->scroll_translate_y, SIGNAL(sliderMoved()), this, SLOT(slider_moved()));
+//  connect(ui->scroll_translate_z, SIGNAL(sliderMoved()), this, SLOT(slider_moved()));
+
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -18,6 +38,11 @@ void MainWindow::on_button_open_clicked() {
                                                   "Object files (*.obj)");
   ui->line_filepath->setText(fileName);
 }
+
+//void MainWindow::slider_moved() {
+//    QAbstractSlider* sl = (QAbstractSlider*)sender();
+
+//}
 
 void MainWindow::on_scroll_translate_x_sliderMoved(int position) {
   ui->line_translate_x->setText(QString::number(position));

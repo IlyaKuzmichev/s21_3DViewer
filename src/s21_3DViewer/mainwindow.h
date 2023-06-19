@@ -19,6 +19,8 @@ class MainWindow : public QMainWindow {
  private slots:
   void on_button_open_clicked();
 
+//  void slider_moved();
+
   void on_scroll_translate_x_sliderMoved(int position);
 
   void on_line_translate_x_returnPressed();
@@ -50,7 +52,6 @@ class MainWindow : public QMainWindow {
   void on_pushButton_edges_colour_pressed();
 
   void on_pushButton_vertices_colour_pressed();
-
 
   void on_pushButton_bg_colour_pressed();
 
