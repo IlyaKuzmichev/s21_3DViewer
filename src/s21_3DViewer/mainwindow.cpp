@@ -2,6 +2,7 @@
 
 #include <QFileDialog>
 #include <QOpenGLWidget>
+#include <QColorDialog>
 
 #include "./ui_mainwindow.h"
 
@@ -106,5 +107,23 @@ void MainWindow::on_scroll_scale_sliderMoved(int position)
 void MainWindow::on_line_scale_returnPressed()
 {
     ui->scroll_scale->setValue(static_cast<int>(10. * log10(ui->line_scale->text().toDouble())));
+}
+
+void MainWindow::on_pushButton_edges_colour_pressed()
+{
+    QColor new_colour = QColorDialog::getColor();
+}
+
+
+void MainWindow::on_pushButton_vertices_colour_pressed()
+{
+    QColor new_colour = QColorDialog::getColor();
+}
+
+
+
+void MainWindow::on_pushButton_bg_colour_pressed()
+{
+    QColor new_colour = QColorDialog::getColor();
 }
 

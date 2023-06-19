@@ -47,6 +47,13 @@ class MainWindow : public QMainWindow {
 
   void on_line_scale_returnPressed();
 
+  void on_pushButton_edges_colour_pressed();
+
+  void on_pushButton_vertices_colour_pressed();
+
+
+  void on_pushButton_bg_colour_pressed();
+
 private:
   Ui::MainWindow *ui;
 };
