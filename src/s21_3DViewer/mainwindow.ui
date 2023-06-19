@@ -48,7 +48,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -211,7 +211,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -530,11 +530,20 @@
      </item>
      <item row="5" column="0">
       <widget class="QScrollBar" name="scroll_scale">
+       <property name="minimum">
+        <number>-10</number>
+       </property>
        <property name="maximum">
-        <number>100</number>
+        <number>10</number>
+       </property>
+       <property name="singleStep">
+        <number>1</number>
+       </property>
+       <property name="pageStep">
+        <number>1</number>
        </property>
        <property name="sliderPosition">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -542,7 +551,7 @@
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QLineEdit" name="line_rotate_x_2">
+      <widget class="QLineEdit" name="line_scale">
        <property name="minimumSize">
         <size>
          <width>80</width>
@@ -578,7 +587,7 @@
      <x>0</x>
      <y>0</y>
      <width>1900</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

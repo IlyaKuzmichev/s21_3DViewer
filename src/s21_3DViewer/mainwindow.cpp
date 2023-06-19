@@ -25,3 +25,86 @@ void MainWindow::on_scroll_translate_x_sliderMoved(int position) {
 void MainWindow::on_line_translate_x_returnPressed() {
   ui->scroll_translate_x->setValue(ui->line_translate_x->text().toInt());
 }
+
+void MainWindow::on_scroll_translate_y_sliderMoved(int position)
+{
+    ui->line_translate_y->setText(QString::number(position));
+}
+
+
+void MainWindow::on_line_translate_y_returnPressed()
+{
+    ui->scroll_translate_y->setValue(ui->line_translate_y->text().toInt());
+}
+
+
+void MainWindow::on_scroll_translate_z_sliderMoved(int position)
+{
+     ui->line_translate_z->setText(QString::number(position));
+}
+
+
+void MainWindow::on_line_translate_z_returnPressed()
+{
+    ui->scroll_translate_z->setValue(ui->line_translate_z->text().toInt());
+}
+
+
+void MainWindow::on_scroll_rotate_x_sliderMoved(int position)
+{
+    ui->line_rotate_x->setText(QString::number(position));
+}
+
+
+void MainWindow::on_line_rotate_x_returnPressed()
+{
+    int num = ui->line_rotate_x->text().toInt();
+    num =  num > 0 ? (num + 180) % 360 - 180 : (num - 180) % 360 + 180;
+    ui->scroll_rotate_x->setValue(num);
+    ui->line_rotate_x->setText(QString::number(num));
+}
+
+
+void MainWindow::on_scroll_rotate_y_sliderMoved(int position)
+{
+    ui->line_rotate_y->setText(QString::number(position));
+}
+
+
+void MainWindow::on_line_rotate_y_returnPressed()
+{
+    int num = ui->line_rotate_y->text().toInt();
+    num =  num > 0 ? (num + 180) % 360 - 180 : (num - 180) % 360 + 180;
+    ui->scroll_rotate_y->setValue(num);
+    ui->line_rotate_y->setText(QString::number(num));
+}
+
+
+void MainWindow::on_scroll_rotate_z_sliderMoved(int position)
+{
+    ui->line_rotate_z->setText(QString::number(position));
+}
+
+
+void MainWindow::on_line_rotate_z_returnPressed()
+{
+    int num = ui->line_rotate_z->text().toInt();
+    num =  num > 0 ? (num + 180) % 360 - 180 : (num - 180) % 360 + 180;
+    ui->scroll_rotate_z->setValue(num);
+    ui->line_rotate_z->setText(QString::number(num));
+}
+
+
+void MainWindow::on_scroll_scale_sliderMoved(int position)
+{
+    ui->line_scale->setText(QString::number(pow(10., static_cast<double>(position / 10.))));
+}
+
+
+
+
+void MainWindow::on_line_scale_returnPressed()
+{
+    ui->scroll_scale->setValue(static_cast<int>(10. * log10(ui->line_scale->text().toDouble())));
+}
+
