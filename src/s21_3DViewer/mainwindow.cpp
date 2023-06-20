@@ -116,14 +116,13 @@ void MainWindow::on_line_rotate_z_returnPressed()
 void MainWindow::on_scroll_scale_sliderMoved(int position)
 {
     ui->line_scale->setText(QString::number(pow(10., static_cast<double>(position / 10.))));
+    ui->GLWidget->ResizeObject(ui->line_scale->text().toDouble());
 }
-
-
-
 
 void MainWindow::on_line_scale_returnPressed()
 {
     ui->scroll_scale->setValue(static_cast<int>(10. * log10(ui->line_scale->text().toDouble())));
+    ui->GLWidget->ResizeObject(ui->line_scale->text().toDouble());
 }
 
 void MainWindow::on_pushButton_edges_colour_pressed()

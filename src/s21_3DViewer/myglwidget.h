@@ -22,19 +22,13 @@ class MyGLWidget : public QOpenGLWidget {
   MyGLWidget(QWidget *parent = nullptr);
   QString path = NULL;
   object_t new_object = {0, 0, NULL, NULL};
-  double trans_x = 0;
-  double trans_y = 0;
-  double trans_z = 0;
-  double rotate_x = 0;
-  double rotate_y = 0;
-  double rotate_z = 0;
-  double scale = 0;
 
  public slots:
 //  void setXRotation(int angle);
 //  void setYRotation(int angle);
 //  void setZRotation(int angle);
   void GoParse();
+  void ResizeObject(double value);
 
  signals:
 //  void xRotationChanged(int angle);
