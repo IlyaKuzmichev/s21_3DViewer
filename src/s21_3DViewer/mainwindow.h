@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 
+extern "C" {
+#include "../backend/3d_viewer.h"
+#include "../backend/parser.h"
+}
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -57,5 +62,8 @@ class MainWindow : public QMainWindow {
 
 private:
   Ui::MainWindow *ui;
+
+signals:
+  void openFile();
 };
 #endif  // MAINWINDOW_H

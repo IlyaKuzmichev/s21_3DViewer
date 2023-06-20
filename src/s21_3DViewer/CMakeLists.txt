@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(s21_3DViewer VERSION 0.1 LANGUAGES CXX)
+project(s21_3DViewer VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -20,6 +20,12 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        myglwidget.h
+        myglwidget.cpp
+        ../backend/parser.h
+        ../backend/3d_viewer.h
+        ../backend/affine_transformations.c
+       ../backend/parser.c
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

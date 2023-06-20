@@ -73,9 +73,9 @@ typedef struct face_s {
  * @brief Parsed .obj structure
  */
 typedef struct object_s {
-  uint64_t v_count;                   ///> number of vertexes
-  uint64_t f_count;                   ///> number of faces
-  double x_min, x_max, y_min, y_max;  ///> limit values of the object
+  uint64_t v_count;  ///> number of vertexes
+  uint64_t f_count;  ///> number of faces
+  // double x_min, x_max, y_min, y_max;  ///> limit values of the object
   point_t* v_array;  ///> matrice of vertexes (each point has 3 coordinates)
   face_t* f_array;   ///> array of faces
 } object_t;

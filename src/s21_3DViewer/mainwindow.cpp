@@ -7,27 +7,12 @@
 
 #include "./ui_mainwindow.h"
 
-//class SliderAdapter {
-//    Q_OBJECT
-
-//    public:
-//        SliderAdapter(QAbstractSlider* sl): sl_(sl) {
-
-//    }
-//    private slots:
-//        void line_changed() {
-//            sl_->setValue(sender()->text)
-//        }
-//    private:
-//        QAbstractSlider* sl_;
-//};
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
-//  connect(ui->scroll_translate_x, SIGNAL(sliderMoved()), this, SLOT(slider_moved()));
-//  connect(ui->scroll_translate_y, SIGNAL(sliderMoved()), this, SLOT(slider_moved()));
-//  connect(ui->scroll_translate_z, SIGNAL(sliderMoved()), this, SLOT(slider_moved()));
+
+  connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
 
 }
 
@@ -37,12 +22,19 @@ void MainWindow::on_button_open_clicked() {
   QString fileName = QFileDialog::getOpenFileName(this, "Open File", "/home",
                                                   "Object files (*.obj)");
   ui->line_filepath->setText(fileName);
+  ui->GLWidget->path = fileName;
+  ui->scroll_rotate_x->setValue(0);
+  ui->scroll_rotate_y->setValue(0);
+  ui->scroll_rotate_z->setValue(0);
+  ui->scroll_translate_x->setValue(0);
+  ui->scroll_translate_y->setValue(0);
+  ui->scroll_translate_z->setValue(0);
+  ui->scroll_scale->setValue(0);
+  ui->line_vertex->setText("Get from GL Widget");
+  ui->line_edge->setText("Need to count");
+
+  emit openFile();
 }
-
-//void MainWindow::slider_moved() {
-//    QAbstractSlider* sl = (QAbstractSlider*)sender();
-
-//}
 
 void MainWindow::on_scroll_translate_x_sliderMoved(int position) {
   ui->line_translate_x->setText(QString::number(position));
