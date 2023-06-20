@@ -113,7 +113,7 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
   return result;
 }
 
-int parse_obj_file(char *path, object_t *obj) {
+int parse_obj_file(const char *path, object_t *obj) {
   enum parse_error result = status_ok;
   FILE *f = fopen(path, "r");
   if (f == NULL) {

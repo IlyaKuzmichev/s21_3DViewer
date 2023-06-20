@@ -34,9 +34,8 @@ void MyGLWidget::paintGL() {
 }
 
 void MyGLWidget::GoParse() {
-    char str[255] = {0};
-    strncpy(str, qPrintable(path), 255);
-    parse_obj_file(str, &new_object);
+    auto str = path.toStdString();
+    parse_obj_file(str.c_str(), &new_object);
     update();
 }
 

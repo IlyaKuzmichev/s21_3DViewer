@@ -43,4 +43,4 @@ enum parse_error {
  *
  * @return error code of parsing (check enum parse_error)
  */
-int parse_obj_file(char *path, object_t *obj);
+int parse_obj_file(const char *path, object_t *obj);
