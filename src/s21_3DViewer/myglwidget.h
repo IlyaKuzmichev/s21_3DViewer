@@ -16,31 +16,31 @@ extern "C" {
 }
 
 class MyGLWidget : public QOpenGLWidget {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  MyGLWidget(QWidget *parent = nullptr);
-  QString path = NULL;
-  object_t new_object = {0, 0, NULL, NULL};
+public:
+    MyGLWidget(QWidget *parent = nullptr);
+    QString path = NULL;
+    object_t new_object = {0};
 
- public slots:
-//  void setXRotation(int angle);
-//  void setYRotation(int angle);
-//  void setZRotation(int angle);
-  void GoParse();
-  void ResizeObject(double value);
+public slots:
+    //  void setXRotation(int angle);
+    //  void setYRotation(int angle);
+    //  void setZRotation(int angle);
+    void GoParse();
+    void ResizeObject(double value);
 
- signals:
-//  void xRotationChanged(int angle);
-//  void yRotationChanged(int angle);
-//  void zRotationChanged(int angle);
+signals:
+    //  void xRotationChanged(int angle);
+    //  void yRotationChanged(int angle);
+    //  void zRotationChanged(int angle);
 
- protected:
-  void initializeGL() override;
-  void paintGL() override;
-  void resizeGL(int width, int height) override;
-//  void mousePressEvent(QMouseEvent *event) override;
-//  void mouseMoveEvent(QMouseEvent *event) override;
+protected:
+    void initializeGL() override;
+    void paintGL() override;
+    void resizeGL(int width, int height) override;
+    //  void mousePressEvent(QMouseEvent *event) override;
+    //  void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif  // MYGLWIDGET_H

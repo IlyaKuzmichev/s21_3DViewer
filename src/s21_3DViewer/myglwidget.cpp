@@ -21,10 +21,10 @@ void MyGLWidget::resizeGL(int w, int h) {
 
 void MyGLWidget::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
+    //    glMatrixMode(GL_MODELVIEW);
+    //    glLoadIdentity();
     glPointSize(5);
-//    glTranslated(0, 0, -3);
+    //    glTranslated(0, 0, -3);
     glBegin(GL_POINTS);
     qDebug() << "V count: " << new_object.v_count;
     for (size_t i = 0; i != new_object.v_count; ++i) {
@@ -41,7 +41,7 @@ void MyGLWidget::GoParse() {
 
 void MyGLWidget::ResizeObject(double value) {
     scale_object(&new_object, value); // need new!!@@@!@3131! object
-//    rotate_ox_object(&new_object, 0.5);
-//    rotate_oy_object(&new_object, 0.5);
+    //    rotate_ox_object(&new_object, 0.5);
+    //    rotate_oy_object(&new_object, 0.5);
     update();
 }
