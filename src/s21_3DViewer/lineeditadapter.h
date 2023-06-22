@@ -2,24 +2,24 @@
 #define LINEEDITADAPTER_H
 
 #include <QLineEdit>
-
 #include <memory>
 
-class LineEditAdapter : public QObject
-{
-    Q_OBJECT
-public:
-    explicit LineEditAdapter(QObject *parent, QLineEdit *line_edit) : QObject{parent}, line_edit_{line_edit} { }
+class LineEditAdapter : public QObject {
+  Q_OBJECT
+ public:
+  explicit LineEditAdapter(QObject *parent, QLineEdit *line_edit)
+      : QObject{parent}, line_edit_{line_edit} {}
 
-    static std::unique_ptr<LineEditAdapter> create(QObject *parent, QLineEdit *line_edit) {
-        return std::make_unique<LineEditAdapter>(parent, line_edit);
-    }
+  static std::unique_ptr<LineEditAdapter> create(QObject *parent,
+                                                 QLineEdit *line_edit) {
+    return std::make_unique<LineEditAdapter>(parent, line_edit);
+  }
 
-public slots:
-    void on_scroll_translate_valueChanged(int value);
+ public slots:
+  void on_scroll_valueChanged(int value);
 
-private:
-    QLineEdit *line_edit_;
+ private:
+  QLineEdit *line_edit_;
 };
 
-#endif // LINEEDITADAPTER_H
+#endif  // LINEEDITADAPTER_H
