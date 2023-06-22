@@ -69,8 +69,8 @@ typedef union point_u {
 typedef struct face_s {
   // quantity of faces
   uint64_t v_count;
-  // dynamicly allocated array of points
-  point_t** v_array;
+  // dynamicly allocated array of points indexes
+  uint64_t* v_array;
 } face_t;
 
 /**
@@ -147,3 +147,5 @@ void rotate_ox_point(point_t* point, double angle);
 void rotate_oy_point(point_t* point, double angle);
 void rotate_oz_point(point_t* point, double angle);
 void scale_point(point_t* point, double scale);
+
+void clone_object(object_t* src, object_t* dst);

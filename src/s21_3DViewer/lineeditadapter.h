@@ -15,8 +15,8 @@ class LineEditAdapter : public QObject {
     return std::make_unique<LineEditAdapter>(parent, line_edit);
   }
 
- public slots:
-  void on_scroll_valueChanged(int value);
+ private slots:
+  void onScrollValueChanged(int value);
 
  private:
   QLineEdit *line_edit_;

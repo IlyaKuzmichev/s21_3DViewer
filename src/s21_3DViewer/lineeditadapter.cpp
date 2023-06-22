@@ -1,5 +1,5 @@
 #include "lineeditadapter.h"
 
-void LineEditAdapter::on_scroll_valueChanged(int value) {
+void LineEditAdapter::onScrollValueChanged(int value) {
   line_edit_->setText(QString::number(value));
 }

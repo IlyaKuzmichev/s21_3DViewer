@@ -11,6 +11,8 @@
 #include <QOpenGLWidget>
 #include <QtMath>
 
+#include "ObjectParameters.h"
+
 extern "C" {
 #include "../backend/3d_viewer.h"
 }
@@ -21,13 +23,15 @@ class MyGLWidget : public QOpenGLWidget {
  public:
   MyGLWidget(QWidget *parent = nullptr);
   QString path = NULL;
-  object_t new_object = {0};
+  object_t initial_state = {0};
+  object_t new_state = {0};
 
  public slots:
   //  void setXRotation(int angle);
   //  void setYRotation(int angle);
   //  void setZRotation(int angle);
   void GoParse();
+  void UpdateObject(ObjectParameters *params);
   void ResizeObject(double value);
 
  signals:

@@ -9,6 +9,7 @@ extern "C" {
 #include "../backend/parser.h"
 }
 
+#include "ObjectParameters.h"
 #include "lineeditadapter.h"
 #include "scrollbaradapter.h"
 
@@ -25,6 +26,9 @@ class MainWindow : public QMainWindow {
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+ signals:
+    void repaintObject(ObjectParameters *params);
+
  private slots:
   void on_button_open_clicked();
 
@@ -38,10 +42,13 @@ class MainWindow : public QMainWindow {
 
   void on_pushButton_bg_colour_pressed();
 
+  void updateParams(int);
+
  private:
   Ui::MainWindow *ui;
   std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;
   std::vector<std::unique_ptr<LineEditAdapter>> lineEditAdapters;
+  ObjectParameters params = {};
 
  signals:
   void openFile();

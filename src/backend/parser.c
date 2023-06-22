@@ -65,7 +65,7 @@ size_t fill_face(const char *line, object_t *obj, size_t last_v_index,
     } else {
       v_number -= 1;
     }
-    face->v_array[v_count] = &obj->v_array[v_number];
+    face->v_array[v_count] = v_number;
     next_lf = strchr(next_lf + 1, ' ');
     ++v_count;
   }
@@ -99,7 +99,7 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
       size_t v_count = get_vertices_count_in_f(line);
       obj->f_array[last_f_index].v_count = v_count;
       obj->f_array[last_f_index].v_array =
-          (point_t **)malloc(v_count * sizeof(point_t *));
+          (uint64_t *)malloc(v_count * sizeof(uint64_t));
 
       result = fill_face(line, obj, last_v_index, last_f_index);
       // result can be equal memory_allocation_error

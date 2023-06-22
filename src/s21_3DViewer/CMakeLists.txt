@@ -27,6 +27,8 @@ set(PROJECT_SOURCES
     ../backend/affine_transformations.c
     ../backend/parser.c
 
+    ObjectParameters.h
+
 # Adapters
     scrollbaradapter.h
     scrollbaradapter.cpp

@@ -17,7 +17,7 @@ endif
 GCOVFLAGS = -fprofile-arcs -ftest-coverage
 
 TESTS_SOURCES=$(addprefix tests/, test.c)
-SOURCES=$(addprefix backend/, affine_transformations.c)
+SOURCES=$(wildcard backend/*.c)
 OBJECTS=$(SOURCES:.c=.o)
 
 FILES_TO_CHECK=$(shell find . -name '*.c' && find . -name '*.h' )

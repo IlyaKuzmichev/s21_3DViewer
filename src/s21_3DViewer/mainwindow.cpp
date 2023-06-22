@@ -18,13 +18,14 @@ MainWindow::MainWindow(QWidget *parent)
         std::make_pair(ui->line_translate_z, ui->scroll_translate_z)}) {
     lineEditAdapters.push_back(LineEditAdapter::create(this, obj_pair.first));
     connect(obj_pair.second, SIGNAL(valueChanged(int)),
-            lineEditAdapters.back().get(), SLOT(on_scroll_valueChanged(int)));
+            lineEditAdapters.back().get(), SLOT(onScrollValueChanged(int)));
+    connect(obj_pair.second, SIGNAL(valueChanged(int)), this, SLOT(updateParams(int)));
 
     scrollBarAdapters.push_back(
         ScrollBarAdapter::create(this, obj_pair.second));
     connect(obj_pair.first, SIGNAL(returnPressed()),
             scrollBarAdapters.back().get(),
-            SLOT(on_line_translate_returnPressed()));
+            SLOT(onLineTranslateReturnPressed()));
   }
 
   for (auto obj_pair :
@@ -33,16 +34,18 @@ MainWindow::MainWindow(QWidget *parent)
         std::make_pair(ui->line_rotate_z, ui->scroll_rotate_z)}) {
     lineEditAdapters.push_back(LineEditAdapter::create(this, obj_pair.first));
     connect(obj_pair.second, SIGNAL(valueChanged(int)),
-            lineEditAdapters.back().get(), SLOT(on_scroll_valueChanged(int)));
+            lineEditAdapters.back().get(), SLOT(onScrollValueChanged(int)));
+    connect(obj_pair.second, SIGNAL(valueChanged(int)), this, SLOT(updateParams(int)));
 
     scrollBarAdapters.push_back(
         ScrollBarAdapter::create(this, obj_pair.second));
     connect(obj_pair.first, SIGNAL(returnPressed()),
             scrollBarAdapters.back().get(),
-            SLOT(on_line_rotate_returnPressed()));
+            SLOT(onLineRotateReturnPressed()));
   }
 
   connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
+  connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget, SLOT(UpdateObject(ObjectParameters*)));
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -87,4 +90,18 @@ void MainWindow::on_pushButton_vertices_colour_pressed() {
 
 void MainWindow::on_pushButton_bg_colour_pressed() {
   QColor new_colour = QColorDialog::getColor();
+}
+
+void MainWindow::updateParams(int) {
+    params.translate_x = ui->scroll_translate_x->value();
+    params.translate_y = ui->scroll_translate_y->value();
+    params.translate_z = ui->scroll_translate_z->value();
+
+    params.rotate_x = ui->scroll_rotate_x->value() / 180.0 * M_PI;
+    params.rotate_y = ui->scroll_rotate_y->value() / 180.0 * M_PI;
+    params.rotate_z = ui->scroll_rotate_z->value() / 180.0 * M_PI;
+
+    params.scale = ui->line_scale->text().toDouble();
+
+    emit repaintObject(&params);
 }

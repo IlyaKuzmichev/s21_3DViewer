@@ -16,9 +16,12 @@ class ScrollBarAdapter : public QObject {
     return std::make_unique<ScrollBarAdapter>(parent, scroll_bar);
   }
 
+ signals:
+  void valueReallyChanged();
+
  private slots:
-  void on_line_translate_returnPressed();
-  void on_line_rotate_returnPressed();
+  void onLineTranslateReturnPressed();
+  void onLineRotateReturnPressed();
 
  private:
   QScrollBar *scroll_bar_;
