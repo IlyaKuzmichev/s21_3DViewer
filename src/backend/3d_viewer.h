@@ -51,7 +51,8 @@
  * @brief Union for point structure
  */
 typedef union point_u {
-  double arr[3];  ///> to call as array
+  // to call as array
+  double arr[3];
   struct {
     // x coord
     double x;
@@ -67,7 +68,7 @@ typedef union point_u {
  * @brief face's structure with various points quantity
  */
 typedef struct face_s {
-  // quantity of faces
+  // quantity of points
   uint64_t v_count;
   // dynamicly allocated array of points indexes
   uint64_t* v_array;
