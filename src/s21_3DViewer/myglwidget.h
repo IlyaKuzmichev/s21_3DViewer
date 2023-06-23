@@ -26,26 +26,27 @@ class MyGLWidget : public QOpenGLWidget {
   object_t initial_state = {0};
   object_t normalized_state = {0};
   object_t new_state = {0};
+  QColor bg_colour;
+  QColor edges_colour;
+  QColor vertices_colour;
+  bool is_parallel_projection;
+
+ private:
+  QPoint lastPos;
 
  public slots:
-  //  void setXRotation(int angle);
-  //  void setYRotation(int angle);
-  //  void setZRotation(int angle);
   void GoParse();
   void UpdateObject(ObjectParameters *params);
-//  void ResizeObject(double value);
 
  signals:
-  //  void xRotationChanged(int angle);
-  //  void yRotationChanged(int angle);
-  //  void zRotationChanged(int angle);
+  void mouseTrigger(double x, double y);
 
  protected:
   void initializeGL() override;
   void paintGL() override;
   void resizeGL(int width, int height) override;
-  //  void mousePressEvent(QMouseEvent *event) override;
-  //  void mouseMoveEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif  // MYGLWIDGET_H

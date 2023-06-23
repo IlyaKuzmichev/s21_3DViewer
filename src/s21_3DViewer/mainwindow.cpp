@@ -3,6 +3,7 @@
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QOpenGLWidget>
+#include <QSettings>
 #include <initializer_list>
 #include <tuple>
 
@@ -11,6 +12,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+
+  LoadSettings();
 
   for (auto obj_pair :
        {std::make_pair(ui->line_translate_x, ui->scroll_translate_x),
@@ -46,9 +49,36 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->scroll_scale, SIGNAL(valueChanged(int)), this, SLOT(updateParams(int)));
   connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
   connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget, SLOT(UpdateObject(ObjectParameters*)));
+  connect(ui->GLWidget, &MyGLWidget::mouseTrigger, this, &MainWindow::setMouseRotation);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() {
+    SaveSettings();
+    delete ui;
+}
+
+void MainWindow::SaveSettings() {
+    QSettings settings("Aboba Team", "3DViewer");
+    settings.setValue("bg_colour", ui->GLWidget->bg_colour);
+    settings.setValue("projection", ui->GLWidget->is_parallel_projection);
+}
+
+void MainWindow::setMouseRotation(double x,double y) {
+    ui->scroll_rotate_x->setValue(ui->scroll_rotate_x->value() + static_cast<int>(x * 3. / 20.));
+    ui->scroll_rotate_y->setValue(ui->scroll_rotate_y->value() + static_cast<int>(y * 3. / 20.));
+}
+
+void MainWindow::LoadSettings() {
+    QSettings settings("Aboba Team", "3DViewer");
+    ui->GLWidget->bg_colour = settings.value("bg_colour", QColor(Qt::black)).value<QColor>();
+    ui->GLWidget->is_parallel_projection = settings.value("projection", true).value<bool>();
+    if (ui->GLWidget->is_parallel_projection == false) {
+        ui->radioButton_central->setChecked(true);
+    }
+
+//    QString filePath = settings.fileName();
+//    qDebug() << filePath;
+}
 
 void MainWindow::on_button_open_clicked() {
   QString fileName = QFileDialog::getOpenFileName(this, "Open File", "/home",
@@ -89,7 +119,7 @@ void MainWindow::on_pushButton_vertices_colour_pressed() {
 }
 
 void MainWindow::on_pushButton_bg_colour_pressed() {
-  QColor new_colour = QColorDialog::getColor();
+   ui->GLWidget->bg_colour = QColorDialog::getColor();
 }
 
 void MainWindow::updateParams(int) {
@@ -106,5 +136,15 @@ void MainWindow::updateParams(int) {
     emit repaintObject(&params);
 }
 
+void MainWindow::on_radioButton_parallel_pressed()
+{
+    ui->GLWidget->is_parallel_projection = true;
+}
 
+
+
+void MainWindow::on_radioButton_central_pressed()
+{
+    ui->GLWidget->is_parallel_projection = false;
+}
 

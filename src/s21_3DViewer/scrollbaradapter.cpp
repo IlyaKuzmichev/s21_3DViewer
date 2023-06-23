@@ -11,7 +11,7 @@ void ScrollBarAdapter::onLineTranslateReturnPressed() {
   if (prev_value == next_value) {
     emit scroll_bar_->valueChanged(next_value);
   } else {
-      emit valueReallyChanged();
+    emit valueReallyChanged();
   }
 }
 
@@ -30,6 +30,6 @@ void ScrollBarAdapter::onLineRotateReturnPressed() {
   if (prev_value == next_value) {
     emit scroll_bar_->valueChanged(next_value);
   } else {
-      emit valueReallyChanged();
+    emit valueReallyChanged();
   }
 }

@@ -18,7 +18,7 @@ void MyGLWidget::resizeGL(int w, int h) {
   glMatrixMode(GL_PROJECTION); // устанавливает текущей проекционную матрицу
   glLoadIdentity();            // присваивает проекционной матрице единичную матрицу
 // мировое окно
-  glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 1.0);     // параметры видимости ортогональной проекции
+  glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 1.0);    // параметры видимости ортогональной проекции
 // плоскости отсечения (левая, правая, верхняя, нижняя, передняя, задняя)
 //  glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 10.0); // параметры видимости перспективной проекции
 // плоскости отсечения: (левая, правая, верхняя, нижняя, ближняя, дальняя)
@@ -28,11 +28,11 @@ void MyGLWidget::resizeGL(int w, int h) {
 }
 
 void MyGLWidget::paintGL() {
-  // glClear(GL_COLOR_BUFFER_BIT); // окно виджета очищается текущим цветом очистки
+  glClearColor(bg_colour.redF(), bg_colour.greenF(), bg_colour.blueF(), 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // очистка буфера изображения и глубины
   glMatrixMode(GL_MODELVIEW); // устанавливает положение и ориентацию матрице моделирования
   glLoadIdentity();           // загружает единичную матрицу моделирования
-  glPointSize(5);
+  glPointSize(3);
   glBegin(GL_POINTS);
 //  qDebug() << "V count: " << new_state.v_count;
   for (size_t i = 0; i != new_state.v_count; ++i) {
@@ -55,16 +55,8 @@ void MyGLWidget::GoParse() {
     new_state.v_array[i] = normalized_state.v_array[i];
   }
   // need to move in C part
-//  resizeGL(1200, 1200);
   update();
 }
-
-//void MyGLWidget::ResizeObject(double value) {
-//  scale_object(&new_state, value);  // need new!!@@@!@3131! object
-//  //    rotate_ox_object(&new_object, 0.5);
-//  //    rotate_oy_object(&new_object, 0.5);
-//  update();
-//}
 
 void MyGLWidget::UpdateObject(ObjectParameters *params) {
   for (uint64_t i = 0; i < new_state.v_count; ++i) {
@@ -78,6 +70,16 @@ void MyGLWidget::UpdateObject(ObjectParameters *params) {
     translate_point(new_state.v_array + i, Y_AXIS, params->translate_y);
     translate_point(new_state.v_array + i, Z_AXIS, params->translate_z);
   }
-
   update();
+}
+
+void MyGLWidget::mousePressEvent(QMouseEvent *event) {
+    lastPos = event->pos();
+}
+
+void MyGLWidget::mouseMoveEvent(QMouseEvent *event) {
+    double diff_x = event->pos().y() - lastPos.y();
+    double diff_y = event->pos().x() - lastPos.x();
+    lastPos = event->pos();
+    emit mouseTrigger(diff_x, diff_y);
 }

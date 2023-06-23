@@ -25,6 +25,8 @@ class MainWindow : public QMainWindow {
  public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
+  void SaveSettings();
+  void LoadSettings();
 
  signals:
   void repaintObject(ObjectParameters *params);
@@ -43,6 +45,12 @@ class MainWindow : public QMainWindow {
   void on_pushButton_bg_colour_pressed();
 
   void updateParams(int);
+
+  void on_radioButton_parallel_pressed();
+
+  void on_radioButton_central_pressed();
+
+  void setMouseRotation(double x, double y);
 
 private:
   Ui::MainWindow *ui;
