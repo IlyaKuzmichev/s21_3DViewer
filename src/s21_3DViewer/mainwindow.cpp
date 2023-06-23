@@ -1,19 +1,51 @@
 #include "mainwindow.h"
 
+#include <QColorDialog>
 #include <QFileDialog>
 #include <QOpenGLWidget>
-#include <QColorDialog>
-#include <QAbstractSlider>
+#include <initializer_list>
+#include <tuple>
 
 #include "./ui_mainwindow.h"
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
-  connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
+  for (auto obj_pair :
+       {std::make_pair(ui->line_translate_x, ui->scroll_translate_x),
+        std::make_pair(ui->line_translate_y, ui->scroll_translate_y),
+        std::make_pair(ui->line_translate_z, ui->scroll_translate_z)}) {
+    lineEditAdapters.push_back(LineEditAdapter::create(this, obj_pair.first));
+    connect(obj_pair.second, SIGNAL(valueChanged(int)),
+            lineEditAdapters.back().get(), SLOT(onScrollValueChanged(int)));
+    connect(obj_pair.second, SIGNAL(valueChanged(int)), this, SLOT(updateParams(int)));
 
+    scrollBarAdapters.push_back(
+        ScrollBarAdapter::create(this, obj_pair.second));
+    connect(obj_pair.first, SIGNAL(returnPressed()),
+            scrollBarAdapters.back().get(),
+            SLOT(onLineTranslateReturnPressed()));
+  }
+
+  for (auto obj_pair :
+       {std::make_pair(ui->line_rotate_x, ui->scroll_rotate_x),
+        std::make_pair(ui->line_rotate_y, ui->scroll_rotate_y),
+        std::make_pair(ui->line_rotate_z, ui->scroll_rotate_z)}) {
+    lineEditAdapters.push_back(LineEditAdapter::create(this, obj_pair.first));
+    connect(obj_pair.second, SIGNAL(valueChanged(int)),
+            lineEditAdapters.back().get(), SLOT(onScrollValueChanged(int)));
+    connect(obj_pair.second, SIGNAL(valueChanged(int)), this, SLOT(updateParams(int)));
+
+    scrollBarAdapters.push_back(
+        ScrollBarAdapter::create(this, obj_pair.second));
+    connect(obj_pair.first, SIGNAL(returnPressed()),
+            scrollBarAdapters.back().get(),
+            SLOT(onLineRotateReturnPressed()));
+  }
+
+  connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
+  connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget, SLOT(UpdateObject(ObjectParameters*)));
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -36,110 +68,40 @@ void MainWindow::on_button_open_clicked() {
   emit openFile();
 }
 
-void MainWindow::on_scroll_translate_x_sliderMoved(int position) {
-  ui->line_translate_x->setText(QString::number(position));
+void MainWindow::on_scroll_scale_sliderMoved(int position) {
+  ui->line_scale->setText(
+      QString::number(pow(10., static_cast<double>(position / 10.))));
+  ui->GLWidget->ResizeObject(ui->line_scale->text().toDouble());
 }
 
-void MainWindow::on_line_translate_x_returnPressed() {
-  ui->scroll_translate_x->setValue(ui->line_translate_x->text().toInt());
+void MainWindow::on_line_scale_returnPressed() {
+  ui->scroll_scale->setValue(
+      static_cast<int>(10. * log10(ui->line_scale->text().toDouble())));
+  ui->GLWidget->ResizeObject(ui->line_scale->text().toDouble());
 }
 
-void MainWindow::on_scroll_translate_y_sliderMoved(int position)
-{
-    ui->line_translate_y->setText(QString::number(position));
+void MainWindow::on_pushButton_edges_colour_pressed() {
+  QColor new_colour = QColorDialog::getColor();
 }
 
-
-void MainWindow::on_line_translate_y_returnPressed()
-{
-    ui->scroll_translate_y->setValue(ui->line_translate_y->text().toInt());
+void MainWindow::on_pushButton_vertices_colour_pressed() {
+  QColor new_colour = QColorDialog::getColor();
 }
 
-
-void MainWindow::on_scroll_translate_z_sliderMoved(int position)
-{
-     ui->line_translate_z->setText(QString::number(position));
+void MainWindow::on_pushButton_bg_colour_pressed() {
+  QColor new_colour = QColorDialog::getColor();
 }
 
+void MainWindow::updateParams(int) {
+    params.translate_x = ui->scroll_translate_x->value();
+    params.translate_y = ui->scroll_translate_y->value();
+    params.translate_z = ui->scroll_translate_z->value();
 
-void MainWindow::on_line_translate_z_returnPressed()
-{
-    ui->scroll_translate_z->setValue(ui->line_translate_z->text().toInt());
+    params.rotate_x = ui->scroll_rotate_x->value() / 180.0 * M_PI;
+    params.rotate_y = ui->scroll_rotate_y->value() / 180.0 * M_PI;
+    params.rotate_z = ui->scroll_rotate_z->value() / 180.0 * M_PI;
+
+    params.scale = ui->line_scale->text().toDouble();
+
+    emit repaintObject(&params);
 }
-
-
-void MainWindow::on_scroll_rotate_x_sliderMoved(int position)
-{
-    ui->line_rotate_x->setText(QString::number(position));
-}
-
-
-void MainWindow::on_line_rotate_x_returnPressed()
-{
-    int num = ui->line_rotate_x->text().toInt();
-    num =  num > 0 ? (num + 180) % 360 - 180 : (num - 180) % 360 + 180;
-    ui->scroll_rotate_x->setValue(num);
-    ui->line_rotate_x->setText(QString::number(num));
-}
-
-
-void MainWindow::on_scroll_rotate_y_sliderMoved(int position)
-{
-    ui->line_rotate_y->setText(QString::number(position));
-}
-
-
-void MainWindow::on_line_rotate_y_returnPressed()
-{
-    int num = ui->line_rotate_y->text().toInt();
-    num =  num > 0 ? (num + 180) % 360 - 180 : (num - 180) % 360 + 180;
-    ui->scroll_rotate_y->setValue(num);
-    ui->line_rotate_y->setText(QString::number(num));
-}
-
-
-void MainWindow::on_scroll_rotate_z_sliderMoved(int position)
-{
-    ui->line_rotate_z->setText(QString::number(position));
-}
-
-
-void MainWindow::on_line_rotate_z_returnPressed()
-{
-    int num = ui->line_rotate_z->text().toInt();
-    num =  num > 0 ? (num + 180) % 360 - 180 : (num - 180) % 360 + 180;
-    ui->scroll_rotate_z->setValue(num);
-    ui->line_rotate_z->setText(QString::number(num));
-}
-
-
-void MainWindow::on_scroll_scale_sliderMoved(int position)
-{
-    ui->line_scale->setText(QString::number(pow(10., static_cast<double>(position / 10.))));
-    ui->GLWidget->ResizeObject(ui->line_scale->text().toDouble());
-}
-
-void MainWindow::on_line_scale_returnPressed()
-{
-    ui->scroll_scale->setValue(static_cast<int>(10. * log10(ui->line_scale->text().toDouble())));
-    ui->GLWidget->ResizeObject(ui->line_scale->text().toDouble());
-}
-
-void MainWindow::on_pushButton_edges_colour_pressed()
-{
-    QColor new_colour = QColorDialog::getColor();
-}
-
-
-void MainWindow::on_pushButton_vertices_colour_pressed()
-{
-    QColor new_colour = QColorDialog::getColor();
-}
-
-
-
-void MainWindow::on_pushButton_bg_colour_pressed()
-{
-    QColor new_colour = QColorDialog::getColor();
-}
-

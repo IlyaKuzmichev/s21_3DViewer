@@ -2,11 +2,16 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <memory>
 
 extern "C" {
 #include "../backend/3d_viewer.h"
 #include "../backend/parser.h"
 }
+
+#include "ObjectParameters.h"
+#include "lineeditadapter.h"
+#include "scrollbaradapter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,32 +26,11 @@ class MainWindow : public QMainWindow {
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+ signals:
+  void repaintObject(ObjectParameters *params);
+
  private slots:
   void on_button_open_clicked();
-
-  void on_scroll_translate_x_sliderMoved(int position);
-
-  void on_line_translate_x_returnPressed();
-
-  void on_scroll_translate_y_sliderMoved(int position);
-
-  void on_line_translate_y_returnPressed();
-
-  void on_scroll_translate_z_sliderMoved(int position);
-
-  void on_line_translate_z_returnPressed();
-
-  void on_scroll_rotate_x_sliderMoved(int position);
-
-  void on_line_rotate_x_returnPressed();
-
-  void on_scroll_rotate_y_sliderMoved(int position);
-
-  void on_line_rotate_y_returnPressed();
-
-  void on_scroll_rotate_z_sliderMoved(int position);
-
-  void on_line_rotate_z_returnPressed();
 
   void on_scroll_scale_sliderMoved(int position);
 
@@ -58,8 +42,13 @@ class MainWindow : public QMainWindow {
 
   void on_pushButton_bg_colour_pressed();
 
+  void updateParams(int);
+
  private:
   Ui::MainWindow *ui;
+  std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;
+  std::vector<std::unique_ptr<LineEditAdapter>> lineEditAdapters;
+  ObjectParameters params = {};
 
  signals:
   void openFile();
