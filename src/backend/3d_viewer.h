@@ -140,6 +140,15 @@ void rotate_oz_object(object_t* obj, double angle);
  */
 void scale_object(object_t* obj, double scale);
 
+/**
+ * @brief Normalize object to show it in Widget 1x1
+ *
+ * @param obj - object, needs to be normalized
+ * @param normalized_obj - pointer to new normalized object
+ */
+
+void normalize_object(const object_t obj, object_t* normalized_obj);
+
 // Affine transformations for points
 
 void translate_point(point_t* point, axis_t axis, double shift);

@@ -11,6 +11,7 @@ static void set_vertices_and_faces_count(FILE *f, object_t *obj);
 static size_t get_vertices_count_in_f(const char *line);
 static size_t fill_face(const char *line, object_t *obj, size_t last_v_index,
                         size_t last_f_index);
+void check_minmax(object_t *obj, size_t last_v_index);
 
 bool starts_with(const char *str, const char *pattern) {
   return strncmp(str, pattern, strlen(pattern)) == 0;
@@ -94,6 +95,7 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
       sscanf(line + strlen("v "), "%lf %lf %lf", &obj->v_array[last_v_index].x,
              &obj->v_array[last_v_index].y,
              &obj->v_array[last_v_index].z);  // maybe < 3
+      check_minmax(obj, last_v_index);
       ++last_v_index;
     } else if (starts_with(line, "f ")) {
       size_t v_count = get_vertices_count_in_f(line);
@@ -111,6 +113,21 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
   fseek(f, pos, SEEK_SET);
 
   return result;
+}
+
+void check_minmax(object_t *obj, size_t last_v_index) {
+  if (obj->v_array[last_v_index].x < obj->x_min) {
+    obj->x_min = obj->v_array[last_v_index].x;
+  }
+  if (obj->v_array[last_v_index].y < obj->y_min) {
+    obj->y_min = obj->v_array[last_v_index].y;
+  }
+  if (obj->v_array[last_v_index].x > obj->x_max) {
+    obj->x_max = obj->v_array[last_v_index].x;
+  }
+  if (obj->v_array[last_v_index].y > obj->y_max) {
+    obj->y_max = obj->v_array[last_v_index].y;
+  }
 }
 
 int parse_obj_file(const char *path, object_t *obj) {
