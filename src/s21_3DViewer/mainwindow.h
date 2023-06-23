@@ -32,9 +32,9 @@ class MainWindow : public QMainWindow {
  private slots:
   void on_button_open_clicked();
 
-  void on_scroll_scale_sliderMoved(int position);
-
   void on_line_scale_returnPressed();
+
+  void on_scroll_scale_valueChanged(int value);
 
   void on_pushButton_edges_colour_pressed();
 
@@ -44,7 +44,7 @@ class MainWindow : public QMainWindow {
 
   void updateParams(int);
 
- private:
+private:
   Ui::MainWindow *ui;
   std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;
   std::vector<std::unique_ptr<LineEditAdapter>> lineEditAdapters;

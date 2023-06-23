@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
             scrollBarAdapters.back().get(),
             SLOT(onLineRotateReturnPressed()));
   }
-
+  connect(ui->scroll_scale, SIGNAL(valueChanged(int)), this, SLOT(updateParams(int)));
   connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
   connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget, SLOT(UpdateObject(ObjectParameters*)));
 }
@@ -68,16 +68,16 @@ void MainWindow::on_button_open_clicked() {
   emit openFile();
 }
 
-void MainWindow::on_scroll_scale_sliderMoved(int position) {
-  ui->line_scale->setText(
-      QString::number(pow(10., static_cast<double>(position / 10.))));
-  ui->GLWidget->ResizeObject(ui->line_scale->text().toDouble());
+void MainWindow::on_scroll_scale_valueChanged(int value)
+{
+    ui->line_scale->setText(
+        QString::number(pow(10., static_cast<double>(value / 10.))));
 }
 
-void MainWindow::on_line_scale_returnPressed() {
-  ui->scroll_scale->setValue(
-      static_cast<int>(10. * log10(ui->line_scale->text().toDouble())));
-  ui->GLWidget->ResizeObject(ui->line_scale->text().toDouble());
+void MainWindow::on_line_scale_returnPressed()
+{
+    ui->scroll_scale->setValue(
+        static_cast<int>(10. * log10(ui->line_scale->text().toDouble())));
 }
 
 void MainWindow::on_pushButton_edges_colour_pressed() {
@@ -93,9 +93,9 @@ void MainWindow::on_pushButton_bg_colour_pressed() {
 }
 
 void MainWindow::updateParams(int) {
-    params.translate_x = ui->scroll_translate_x->value();
-    params.translate_y = ui->scroll_translate_y->value();
-    params.translate_z = ui->scroll_translate_z->value();
+    params.translate_x = static_cast<double>(ui->scroll_translate_x->value()) / 100.;
+    params.translate_y = static_cast<double>(ui->scroll_translate_y->value()) / 100.;
+    params.translate_z = static_cast<double>(ui->scroll_translate_z->value()) / 100.;
 
     params.rotate_x = ui->scroll_rotate_x->value() / 180.0 * M_PI;
     params.rotate_y = ui->scroll_rotate_y->value() / 180.0 * M_PI;
@@ -105,3 +105,6 @@ void MainWindow::updateParams(int) {
 
     emit repaintObject(&params);
 }
+
+
+

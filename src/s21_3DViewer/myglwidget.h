@@ -24,6 +24,7 @@ class MyGLWidget : public QOpenGLWidget {
   MyGLWidget(QWidget *parent = nullptr);
   QString path = NULL;
   object_t initial_state = {0};
+  object_t normalized_state = {0};
   object_t new_state = {0};
 
  public slots:
@@ -32,7 +33,7 @@ class MyGLWidget : public QOpenGLWidget {
   //  void setZRotation(int angle);
   void GoParse();
   void UpdateObject(ObjectParameters *params);
-  void ResizeObject(double value);
+//  void ResizeObject(double value);
 
  signals:
   //  void xRotationChanged(int angle);
