@@ -25,6 +25,7 @@ void set_vertices_and_faces_count(FILE *f, object_t *obj) {
   ssize_t character_count = 0;
   obj->v_count = 0;
   obj->f_count = 0;
+  obj->e_count = 0;
 
   while ((character_count = getline(&line, &linecapp, f)),
          character_count > 0) {
@@ -99,6 +100,7 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
       ++last_v_index;
     } else if (starts_with(line, "f ")) {
       size_t v_count = get_vertices_count_in_f(line);
+      obj->e_count += (v_count > 2) ? v_count : (v_count - 1); // assumes v_count > 0 
       obj->f_array[last_f_index].v_count = v_count;
       obj->f_array[last_f_index].v_array =
           (uint64_t *)malloc(v_count * sizeof(uint64_t));
@@ -110,6 +112,12 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
     }
   }
 
+  if (result != status_ok) {
+    for (size_t i = 0; i < last_f_index; ++i) {
+      free(obj->f_array[i].v_array);
+    }
+  }
+
   fseek(f, pos, SEEK_SET);
 
   return result;
@@ -118,14 +126,12 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
 void check_minmax(object_t *obj, size_t last_v_index) {
   if (obj->v_array[last_v_index].x < obj->x_min) {
     obj->x_min = obj->v_array[last_v_index].x;
+  } else if (obj->v_array[last_v_index].x > obj->x_max) {
+    obj->x_max = obj->v_array[last_v_index].x;
   }
   if (obj->v_array[last_v_index].y < obj->y_min) {
     obj->y_min = obj->v_array[last_v_index].y;
-  }
-  if (obj->v_array[last_v_index].x > obj->x_max) {
-    obj->x_max = obj->v_array[last_v_index].x;
-  }
-  if (obj->v_array[last_v_index].y > obj->y_max) {
+  } else if (obj->v_array[last_v_index].y > obj->y_max) {
     obj->y_max = obj->v_array[last_v_index].y;
   }
 }
@@ -146,6 +152,12 @@ int parse_obj_file(const char *path, object_t *obj) {
       obj->f_array = (face_t *)malloc(obj->f_count * sizeof(face_t));
     }
     result = fill_vertices_and_faces(f, obj);
+
+    if (result != status_ok) {
+      free(obj->v_array);
+      free(obj->f_array);
+      memset(obj, 0, sizeof(object_t));
+    }
   }
   fclose(f);
 

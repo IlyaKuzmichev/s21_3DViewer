@@ -83,6 +83,8 @@ typedef struct object_s {
   uint64_t v_count;
   // number of faces
   uint64_t f_count;
+  // number of edges;
+  uint64_t e_count;
   // limit values of the object
   double x_min, x_max, y_min, y_max;
   // matrice of vertexes (each point has 3 coordinates)
@@ -157,5 +159,3 @@ void rotate_ox_point(point_t* point, double angle);
 void rotate_oy_point(point_t* point, double angle);
 void rotate_oz_point(point_t* point, double angle);
 void scale_point(point_t* point, double scale);
-
-void clone_object(object_t* src, object_t* dst);
