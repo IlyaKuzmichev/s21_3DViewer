@@ -50,6 +50,11 @@ MainWindow::MainWindow(QWidget *parent)
   connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
   connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget, SLOT(UpdateObject(ObjectParameters*)));
   connect(ui->GLWidget, &MyGLWidget::mouseTrigger, this, &MainWindow::setMouseRotation);
+
+  // this is BAD code
+  ui->GLWidget->vertices_count = ui->line_vertex;
+  ui->GLWidget->edges_count = ui->line_edge;
+  // this is BAD code
 }
 
 MainWindow::~MainWindow() {

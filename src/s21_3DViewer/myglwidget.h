@@ -10,6 +10,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLWidget>
 #include <QtMath>
+#include <QLineEdit>
 
 #include "ObjectParameters.h"
 
@@ -29,6 +30,8 @@ class MyGLWidget : public QOpenGLWidget {
   QColor bg_colour;
   QColor edges_colour;
   QColor vertices_colour;
+  QLineEdit *vertices_count;
+  QLineEdit *edges_count;
   bool is_parallel_projection;
 
  private:

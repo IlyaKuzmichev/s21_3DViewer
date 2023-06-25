@@ -55,6 +55,12 @@ void MyGLWidget::GoParse() {
     new_state.v_array[i] = normalized_state.v_array[i];
   }
   // need to move in C part
+
+  // this is BAD code
+  vertices_count->setText(QString::number(initial_state.v_count));
+  edges_count->setText(QString::number(initial_state.e_count));
+  // this is BAD code
+
   update();
 }
 

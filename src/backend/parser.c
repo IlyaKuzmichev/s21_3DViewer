@@ -106,8 +106,6 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
           (uint64_t *)malloc(v_count * sizeof(uint64_t));
 
       result = fill_face(line, obj, last_v_index, last_f_index);
-      // result can be equal memory_allocation_error
-      // we need to free all allocated memory!!!
       ++last_f_index;
     }
   }
