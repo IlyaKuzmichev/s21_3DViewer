@@ -69,9 +69,12 @@ void MainWindow::SaveSettings() {
     settings.setValue("projection", ui->GLWidget->is_parallel_projection);
 }
 
-void MainWindow::setMouseRotation(double x,double y) {
-    ui->scroll_rotate_x->setValue(ui->scroll_rotate_x->value() + static_cast<int>(x * 3. / 20.));
-    ui->scroll_rotate_y->setValue(ui->scroll_rotate_y->value() + static_cast<int>(y * 3. / 20.));
+void MainWindow::setMouseRotation(double x, double y) {
+    ui->line_rotate_x->setText(QString::number(ui->scroll_rotate_x->value() + static_cast<int>(x * 3. / 20.)));
+    emit ui->line_rotate_x->returnPressed();
+
+    ui->line_rotate_y->setText(QString::number(ui->scroll_rotate_y->value() + static_cast<int>(y * 3. / 20.)));
+    emit ui->line_rotate_y->returnPressed();
 }
 
 void MainWindow::setWheelScale(int increase_scale) {
