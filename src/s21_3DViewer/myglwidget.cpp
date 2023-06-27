@@ -42,6 +42,14 @@ void MyGLWidget::paintGL() {
                new_state.v_array[i].z);
   }
   glEnd();
+  for (size_t i = 0; i != initial_state.f_count; ++i) {
+      glBegin(GL_LINES);
+      for (size_t j = 0; j != initial_state.f_array[i].v_count; ++j) {
+          glVertex3d(new_state.v_array[initial_state.f_array[i].v_array[j]].x, new_state.v_array[initial_state.f_array[i].v_array[j]].y, new_state.v_array[initial_state.f_array[i].v_array[j]].z);
+      }
+      glVertex3d(new_state.v_array[initial_state.f_array[i].v_array[0]].x, new_state.v_array[initial_state.f_array[i].v_array[0]].y, new_state.v_array[initial_state.f_array[i].v_array[0]].z);
+      glEnd();
+  }
 }
 
 void MyGLWidget::GoParse() {
@@ -60,7 +68,7 @@ void MyGLWidget::GoParse() {
   vertices_count->setText(QString::number(initial_state.v_count));
   edges_count->setText(QString::number(initial_state.e_count));
   // this is BAD code
-
+//  resizeGL(1200, 1200);
   update();
 }
 
