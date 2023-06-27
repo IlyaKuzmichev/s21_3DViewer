@@ -102,3 +102,11 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *event) {
     lastPos = event->pos();
     emit mouseTrigger(diff_x, diff_y);
 }
+
+void MyGLWidget::wheelEvent(QWheelEvent* event) {
+    int increase_scale = 5;
+    if (event->angleDelta().y() < 0) {
+        increase_scale = -5;
+    }
+    emit wheelTrigger(increase_scale);
+}

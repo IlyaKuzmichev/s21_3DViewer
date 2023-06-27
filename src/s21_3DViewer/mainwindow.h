@@ -52,6 +52,8 @@ class MainWindow : public QMainWindow {
 
   void setMouseRotation(double x, double y);
 
+  void setWheelScale(int increase_scale);
+
 private:
   Ui::MainWindow *ui;
   std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;

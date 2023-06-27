@@ -5,6 +5,7 @@
 
 #include <QColor>
 #include <QMouseEvent>
+#include <QWheelEvent>
 #include <QOpenGLBuffer>
 #include <QOpenGLFunctions>
 #include <QOpenGLVertexArrayObject>
@@ -43,6 +44,7 @@ class MyGLWidget : public QOpenGLWidget {
 
  signals:
   void mouseTrigger(double x, double y);
+  void wheelTrigger(int increase_scale);
 
  protected:
   void initializeGL() override;
@@ -50,6 +52,7 @@ class MyGLWidget : public QOpenGLWidget {
   void resizeGL(int width, int height) override;
   void mousePressEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
+  void wheelEvent(QWheelEvent* event) override;
 };
 
 #endif  // MYGLWIDGET_H

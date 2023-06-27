@@ -538,10 +538,10 @@
        <item row="11" column="0">
         <widget class="QScrollBar" name="scroll_scale">
          <property name="minimum">
-          <number>-10</number>
+          <number>-100</number>
          </property>
          <property name="maximum">
-          <number>10</number>
+          <number>100</number>
          </property>
          <property name="singleStep">
           <number>1</number>

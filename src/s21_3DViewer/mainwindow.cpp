@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
   connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget, SLOT(UpdateObject(ObjectParameters*)));
   connect(ui->GLWidget, &MyGLWidget::mouseTrigger, this, &MainWindow::setMouseRotation);
+  connect(ui->GLWidget, & MyGLWidget::wheelTrigger, this, &MainWindow::setWheelScale);
 
   // this is BAD code
   ui->GLWidget->vertices_count = ui->line_vertex;
@@ -71,6 +72,10 @@ void MainWindow::SaveSettings() {
 void MainWindow::setMouseRotation(double x,double y) {
     ui->scroll_rotate_x->setValue(ui->scroll_rotate_x->value() + static_cast<int>(x * 3. / 20.));
     ui->scroll_rotate_y->setValue(ui->scroll_rotate_y->value() + static_cast<int>(y * 3. / 20.));
+}
+
+void MainWindow::setWheelScale(int increase_scale) {
+     ui->scroll_scale->setValue(ui->scroll_scale->value() + increase_scale);
 }
 
 void MainWindow::LoadSettings() {
@@ -106,7 +111,7 @@ void MainWindow::on_button_open_clicked() {
 void MainWindow::on_scroll_scale_valueChanged(int value)
 {
     ui->line_scale->setText(
-        QString::number(pow(10., static_cast<double>(value / 10.))));
+        QString::number(pow(10., static_cast<double>(value / 100.))));
 }
 
 void MainWindow::on_line_scale_returnPressed()
