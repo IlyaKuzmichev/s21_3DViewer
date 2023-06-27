@@ -42,12 +42,17 @@ void MyGLWidget::paintGL() {
                new_state.v_array[i].z);
   }
   glEnd();
-  for (size_t i = 0; i != initial_state.f_count; ++i) {
+  for (size_t i = 0; i < initial_state.f_count; ++i) {
+      const auto& face = initial_state.f_array[i];
       glBegin(GL_LINES);
-      for (size_t j = 0; j != initial_state.f_array[i].v_count; ++j) {
-          glVertex3d(new_state.v_array[initial_state.f_array[i].v_array[j]].x, new_state.v_array[initial_state.f_array[i].v_array[j]].y, new_state.v_array[initial_state.f_array[i].v_array[j]].z);
+      const auto& first_point = new_state.v_array[face.v_array[0]];
+      glVertex3d(first_point.x, first_point.y, first_point.z);
+      for (size_t j = 1; j < face.v_count; ++j) {
+          const auto& point = new_state.v_array[face.v_array[j]];
+          glVertex3d(point.x, point.y, point.z);
+          glVertex3d(point.x, point.y, point.z);
       }
-      glVertex3d(new_state.v_array[initial_state.f_array[i].v_array[0]].x, new_state.v_array[initial_state.f_array[i].v_array[0]].y, new_state.v_array[initial_state.f_array[i].v_array[0]].z);
+      glVertex3d(first_point.x, first_point.y, first_point.z);
       glEnd();
   }
 }
