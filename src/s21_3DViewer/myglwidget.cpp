@@ -57,10 +57,13 @@ void MyGLWidget::paintGL() {
 }
 
 void MyGLWidget::GoParse() {
-  auto str = path.toStdString();
   free_memory(&initial_state);
+  normalized_state.f_count = 0;
+  new_state.f_count = 0;
   free_memory(&normalized_state);
   free_memory(&new_state);
+
+  auto str = path.toStdString();
   parse_obj_file(str.c_str(), &initial_state);
   normalize_object(initial_state, &normalized_state);
   // need to move in C part
@@ -80,16 +83,17 @@ void MyGLWidget::GoParse() {
 }
 
 void MyGLWidget::free_memory(object_t* obj) {
-//    if(NULL != obj->f_array) {
-//        for (size_t i = 0; i < obj->f_count; ++i) {
-//            if (NULL != obj->f_array[i].v_array)
-//            delete[] obj->f_array[i].v_array;
-//        }
-//        delete[] obj->f_array;
-//    }
-//    if (NULL != obj->v_array) {
-//        delete[] obj->v_array;
-//    }
+    qDebug() << obj->v_array;
+    qDebug() << obj->f_array;
+    if (obj->f_count > 0) {
+        for (size_t i = 0; i < obj->f_count; ++i) {
+            free(obj->f_array[i].v_array);
+        }
+        free(obj->f_array);
+    }
+    obj->f_array = NULL;
+    free(obj->v_array);
+    obj->v_array = NULL;
 }
 
 void MyGLWidget::UpdateObject(ObjectParameters *params) {

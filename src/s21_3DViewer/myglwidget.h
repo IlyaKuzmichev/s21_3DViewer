@@ -25,6 +25,14 @@ class MyGLWidget : public QOpenGLWidget {
 
  public:
   MyGLWidget(QWidget *parent = nullptr);
+  ~MyGLWidget() {
+      free_memory(&initial_state);
+      normalized_state.f_count = 0;
+      new_state.f_count = 0;
+      free_memory(&normalized_state);
+      free_memory(&new_state);
+  }
+
   QString path = NULL;
   object_t initial_state = {0};
   object_t normalized_state = {0};
