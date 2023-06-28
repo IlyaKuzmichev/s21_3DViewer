@@ -29,6 +29,10 @@ set(PROJECT_SOURCES
 
     ObjectParameters.h
 
+# Parallel
+    worker.h
+    worker.cpp
+
 # Adapters
     coloradapter.h
     coloradapter.cpp

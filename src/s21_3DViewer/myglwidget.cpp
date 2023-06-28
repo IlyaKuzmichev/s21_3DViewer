@@ -4,7 +4,12 @@
 
 #include <QDebug>
 
-MyGLWidget::MyGLWidget(QWidget *parrent) : QOpenGLWidget(parrent) {}
+MyGLWidget::MyGLWidget(QWidget *parrent) : QOpenGLWidget(parrent) {
+    connect(this, SIGNAL(goCalc1(ObjectParameters*,int,int)), &one, SLOT(Calculate(ObjectParameters*,int,int)));
+    connect(this, SIGNAL(goCalc2(ObjectParameters*,int,int)), &two, SLOT(Calculate(ObjectParameters*,int,int)));
+    connect(&one, SIGNAL(workerReady()), this, SLOT(calcFinished()));
+    connect(&two, SIGNAL(workerReady()), this, SLOT(calcFinished()));
+}
 
 void MyGLWidget::initializeGL() {
     glEnable(GL_DEPTH_TEST);
@@ -96,18 +101,29 @@ void MyGLWidget::free_memory(object_t* obj) {
 }
 
 void MyGLWidget::UpdateObject(ObjectParameters *params) {
-  for (uint64_t i = 0; i < new_state.v_count; ++i) {
-    new_state.v_array[i] = normalized_state.v_array[i];
-    rotate_ox_point(new_state.v_array + i, params->rotate_x);
-    rotate_oy_point(new_state.v_array + i, params->rotate_y);
-    rotate_oz_point(new_state.v_array + i, params->rotate_z);
-    scale_point(new_state.v_array + i, params->scale);
+    emit goCalc1(params, 0, total);
+    emit goCalc2(params, 1, total);
 
-    translate_point(new_state.v_array + i, X_AXIS, params->translate_x);
-    translate_point(new_state.v_array + i, Y_AXIS, params->translate_y);
-    translate_point(new_state.v_array + i, Z_AXIS, params->translate_z);
-  }
-  update();
+//    for (uint64_t i = 0; i < new_state.v_count; ++i) {
+//        new_state.v_array[i] = normalized_state.v_array[i];
+//        rotate_ox_point(new_state.v_array + i, params->rotate_x);
+//        rotate_oy_point(new_state.v_array + i, params->rotate_y);
+//        rotate_oz_point(new_state.v_array + i, params->rotate_z);
+//        scale_point(new_state.v_array + i, params->scale);
+
+//        translate_point(new_state.v_array + i, X_AXIS, params->translate_x);
+//        translate_point(new_state.v_array + i, Y_AXIS, params->translate_y);
+//        translate_point(new_state.v_array + i, Z_AXIS, params->translate_z);
+//    }
+//    update();
+}
+
+void MyGLWidget::calcFinished() {
+    ++work_counter;
+    if (work_counter == total) {
+        work_counter = 0;
+        update();
+    }
 }
 
 void MyGLWidget::mousePressEvent(QMouseEvent *event) {

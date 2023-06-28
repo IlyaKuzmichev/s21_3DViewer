@@ -15,6 +15,7 @@
 
 #include "ObjectParameters.h"
 #include "mainwindow.h"
+#include "worker.h"
 
 extern "C" {
 #include "../backend/3d_viewer.h"
@@ -53,14 +54,24 @@ class MyGLWidget : public QOpenGLWidget {
   void setProjection();
   void free_memory(object_t* obj);
 
+ private:
+  const int total = 2;
+  std::atomic<int> work_counter = 0;
+  Worker one = Worker(this, normalized_state, new_state);
+  Worker two = Worker(this, normalized_state, new_state);
+
  public slots:
   void GoParse();
   void UpdateObject(ObjectParameters *params);
   void updateFrame();
 
+  void calcFinished();
+
  signals:
   void mouseTrigger(double x, double y);
   void wheelTrigger(int increase_scale);
+  void goCalc1(ObjectParameters *params, int id, int total);
+  void goCalc2(ObjectParameters *params, int id, int total);
 
  protected:
   void initializeGL() override;
