@@ -10,31 +10,19 @@ MyGLWidget::MyGLWidget(QWidget *parrent) : QOpenGLWidget(parrent) {}
 
 void MyGLWidget::initializeGL() {
     glEnable(GL_DEPTH_TEST);
-//    glOrtho(-10, 10, -10, 10, 1, 1000);
-//    glViewport(0, 0, 1200, 1200);
 }
 
 void MyGLWidget::resizeGL(int w, int h) {
-  glMatrixMode(GL_PROJECTION); // устанавливает текущей проекционную матрицу
-  glLoadIdentity();            // присваивает проекционной матрице единичную матрицу
-// мировое окно
-  glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 1.0);    // параметры видимости ортогональной проекции
-// плоскости отсечения (левая, правая, верхняя, нижняя, передняя, задняя)
-//  glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 10.0); // параметры видимости перспективной проекции
-// плоскости отсечения: (левая, правая, верхняя, нижняя, ближняя, дальняя)
-
-  // поле просмотра
-  glViewport(0, 0, (GLint)w, (GLint)h); // устанавливает видовое окно с размерами равными окну виджета
 }
 
 void MyGLWidget::paintGL() {
+  setProjection();
   glClearColor(bg_colour.redF(), bg_colour.greenF(), bg_colour.blueF(), 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // очистка буфера изображения и глубины
   glMatrixMode(GL_MODELVIEW); // устанавливает положение и ориентацию матрице моделирования
   glLoadIdentity();           // загружает единичную матрицу моделирования
   glPointSize(3);
   glBegin(GL_POINTS);
-//  qDebug() << "V count: " << new_state.v_count;
   for (size_t i = 0; i != new_state.v_count; ++i) {
 //    qDebug() << new_state.v_array[i].x << new_state.v_array[i].y
 //             << new_state.v_array[i].z;
@@ -59,6 +47,9 @@ void MyGLWidget::paintGL() {
 
 void MyGLWidget::GoParse() {
   auto str = path.toStdString();
+  free_memory(&initial_state);
+  free_memory(&normalized_state);
+  free_memory(&new_state);
   parse_obj_file(str.c_str(), &initial_state);
   normalize_object(initial_state, &normalized_state);
   // need to move in C part
@@ -73,8 +64,21 @@ void MyGLWidget::GoParse() {
   vertices_count->setText(QString::number(initial_state.v_count));
   edges_count->setText(QString::number(initial_state.e_count));
   // this is BAD code
-//  resizeGL(1200, 1200);
+  qDebug() << normalized_state.x_min << " " << normalized_state.x_max << " " << normalized_state.y_min << " " << normalized_state.y_max << '\n';
   update();
+}
+
+void MyGLWidget::free_memory(object_t* obj) {
+//    if(NULL != obj->f_array) {
+//        for (size_t i = 0; i < obj->f_count; ++i) {
+//            if (NULL != obj->f_array[i].v_array)
+//            delete[] obj->f_array[i].v_array;
+//        }
+//        delete[] obj->f_array;
+//    }
+//    if (NULL != obj->v_array) {
+//        delete[] obj->v_array;
+//    }
 }
 
 void MyGLWidget::UpdateObject(ObjectParameters *params) {
@@ -109,4 +113,21 @@ void MyGLWidget::wheelEvent(QWheelEvent* event) {
         increase_scale = -5;
     }
     emit wheelTrigger(increase_scale);
+}
+
+void MyGLWidget::setProjection() {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    GLfloat fov = 60.0 * M_PI / 180;
+    GLfloat near = 1 / tan(fov / 2);
+    if(is_parallel_projection) {
+        glOrtho(-2., 2., -2., 2., -10, 1.);
+    } else {
+        glFrustum(-0.5, 0.5, -0.5, 0.5, near, 10.);
+        glTranslated(0, 0, -near * 3);
+    }
+}
+
+void MyGLWidget::updateFrame() {
+    update();
 }

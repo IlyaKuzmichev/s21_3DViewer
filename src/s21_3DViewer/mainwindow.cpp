@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget, SLOT(UpdateObject(ObjectParameters*)));
   connect(ui->GLWidget, &MyGLWidget::mouseTrigger, this, &MainWindow::setMouseRotation);
   connect(ui->GLWidget, & MyGLWidget::wheelTrigger, this, &MainWindow::setWheelScale);
+  connect(this, SIGNAL(updateWidget()), ui->GLWidget, SLOT(updateFrame()));
 
   // this is BAD code
   ui->GLWidget->vertices_count = ui->line_vertex;
@@ -152,6 +153,7 @@ void MainWindow::updateParams(int) {
 void MainWindow::on_radioButton_parallel_pressed()
 {
     ui->GLWidget->is_parallel_projection = true;
+    emit updateWidget();
 }
 
 
@@ -159,5 +161,6 @@ void MainWindow::on_radioButton_parallel_pressed()
 void MainWindow::on_radioButton_central_pressed()
 {
     ui->GLWidget->is_parallel_projection = false;
+    emit updateWidget();
 }
 

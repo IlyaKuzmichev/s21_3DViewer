@@ -100,7 +100,8 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
       ++last_v_index;
     } else if (starts_with(line, "f ")) {
       size_t v_count = get_vertices_count_in_f(line);
-      obj->e_count += (v_count > 2) ? v_count : (v_count - 1); // assumes v_count > 0 
+      obj->e_count +=
+          (v_count > 2) ? v_count : (v_count - 1);  // assumes v_count > 0
       obj->f_array[last_f_index].v_count = v_count;
       obj->f_array[last_f_index].v_array =
           (uint64_t *)malloc(v_count * sizeof(uint64_t));
@@ -149,6 +150,10 @@ int parse_obj_file(const char *path, object_t *obj) {
     } else {
       obj->f_array = (face_t *)malloc(obj->f_count * sizeof(face_t));
     }
+    obj->x_min = 0;
+    obj->x_max = 0;
+    obj->y_min = 0;
+    obj->y_max = 0;
     result = fill_vertices_and_faces(f, obj);
 
     if (result != status_ok) {

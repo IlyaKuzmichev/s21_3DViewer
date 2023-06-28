@@ -31,6 +31,8 @@ class MainWindow : public QMainWindow {
  signals:
   void repaintObject(ObjectParameters *params);
 
+  void updateWidget();
+
  private slots:
   void on_button_open_clicked();
 

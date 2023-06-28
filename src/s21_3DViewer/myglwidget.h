@@ -31,16 +31,20 @@ class MyGLWidget : public QOpenGLWidget {
   QColor bg_colour;
   QColor edges_colour;
   QColor vertices_colour;
+  bool is_edges_solid;
+  bool is_parallel_projection;
   QLineEdit *vertices_count;
   QLineEdit *edges_count;
-  bool is_parallel_projection;
 
  private:
   QPoint lastPos;
+  void setProjection();
+  void free_memory(object_t* obj);
 
  public slots:
   void GoParse();
   void UpdateObject(ObjectParameters *params);
+  void updateFrame();
 
  signals:
   void mouseTrigger(double x, double y);
@@ -53,6 +57,7 @@ class MyGLWidget : public QOpenGLWidget {
   void mousePressEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
   void wheelEvent(QWheelEvent* event) override;
+
 };
 
 #endif  // MYGLWIDGET_H
