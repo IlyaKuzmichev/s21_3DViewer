@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QButtonGroup>
 #include <memory>
 
 extern "C" {
@@ -64,11 +65,7 @@ class MainWindow : public QMainWindow {
 
   void on_slider_thickness_valueChanged(int value);
 
-  void on_radioButton_display_none_pressed();
-
-  void on_radioButton_display_circle_pressed();
-
-  void on_radioButton_display_square_pressed();
+  void onRadioButtonDisplayPressed(int value);
 
   void on_slider_size_valueChanged(int value);
 
@@ -77,6 +74,7 @@ private:
   std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;
   std::vector<std::unique_ptr<LineEditAdapter>> lineEditAdapters;
   ObjectParameters params = {};
+  QButtonGroup group;
   void groupButtons();
 
  signals:

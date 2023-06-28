@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 
-#include <QButtonGroup>
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QOpenGLWidget>
@@ -58,6 +57,11 @@ MainWindow::MainWindow(QWidget *parent)
   ui->GLWidget->vertices_count = ui->line_vertex;
   ui->GLWidget->edges_count = ui->line_edge;
   // this is BAD code
+
+  group.addButton(ui->radioButton_display_none, DisplayMethod::none);
+  group.addButton(ui->radioButton_display_circle, DisplayMethod::circle);
+  group.addButton(ui->radioButton_display_square, DisplayMethod::square);
+  connect(&group, SIGNAL(idPressed(int)), this, SLOT(onRadioButtonDisplayPressed(int)));
 }
 
 MainWindow::~MainWindow() {
@@ -185,28 +189,10 @@ void MainWindow::on_slider_thickness_valueChanged(int value)
     emit updateWidget();
 }
 
-
-
-void MainWindow::on_radioButton_display_none_pressed()
-{
-    ui->GLWidget->vertices_type = DisplayMethod::none;
+void MainWindow::onRadioButtonDisplayPressed(int value) {
+    ui->GLWidget->vertices_type = value;
     emit updateWidget();
 }
-
-
-void MainWindow::on_radioButton_display_circle_pressed()
-{
-     ui->GLWidget->vertices_type = DisplayMethod::circle;
-     emit updateWidget();
-}
-
-
-void MainWindow::on_radioButton_display_square_pressed()
-{
-    ui->GLWidget->vertices_type = DisplayMethod::square;
-    emit updateWidget();
-}
-
 
 void MainWindow::on_slider_size_valueChanged(int value)
 {
