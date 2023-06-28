@@ -25,6 +25,7 @@ void MyGLWidget::paintGL() {
          } else {
              glDisable(GL_POINT_SMOOTH);
          }
+         glColor3d(vertices_colour.redF(), vertices_colour.greenF(), vertices_colour.blueF());
          glPointSize(vertices_size);
          glBegin(GL_POINTS);
          for (size_t i = 0; i != new_state.v_count; ++i) {
@@ -36,6 +37,7 @@ void MyGLWidget::paintGL() {
 
   glLineWidth(edges_thickness);
   glLineStipple(1, 0x00F0);
+  glColor3d(edges_colour.redF(), edges_colour.greenF(), edges_colour.blueF());
   if (is_edges_solid) {
       glDisable(GL_LINE_STIPPLE);
   } else {
