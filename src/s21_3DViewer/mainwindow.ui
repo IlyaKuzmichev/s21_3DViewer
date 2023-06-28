@@ -741,6 +741,9 @@
            <property name="text">
             <string>Solid</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item row="0" column="1">
@@ -785,6 +788,12 @@
        </item>
        <item>
         <widget class="QSlider" name="slider_thickness">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -850,6 +859,9 @@
            </property>
            <property name="text">
             <string>None</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -946,6 +958,12 @@
            <width>170</width>
            <height>25</height>
           </size>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>20</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>

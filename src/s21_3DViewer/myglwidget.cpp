@@ -4,8 +4,6 @@
 
 #include <QDebug>
 
-#include "mainwindow.h"
-
 MyGLWidget::MyGLWidget(QWidget *parrent) : QOpenGLWidget(parrent) {}
 
 void MyGLWidget::initializeGL() {
@@ -20,16 +18,29 @@ void MyGLWidget::paintGL() {
   glClearColor(bg_colour.redF(), bg_colour.greenF(), bg_colour.blueF(), 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // очистка буфера изображения и глубины
   glMatrixMode(GL_MODELVIEW); // устанавливает положение и ориентацию матрице моделирования
-  glLoadIdentity();           // загружает единичную матрицу моделирования
-  glPointSize(3);
-  glBegin(GL_POINTS);
-  for (size_t i = 0; i != new_state.v_count; ++i) {
-//    qDebug() << new_state.v_array[i].x << new_state.v_array[i].y
-//             << new_state.v_array[i].z;
-    glVertex3d(new_state.v_array[i].x, new_state.v_array[i].y,
-               new_state.v_array[i].z);
+  glLoadIdentity();        // загружает единичную матрицу моделирования
+  if (vertices_type != DisplayMethod::none) {
+         if (vertices_type == DisplayMethod::circle) {
+             glEnable(GL_POINT_SMOOTH);
+         } else {
+             glDisable(GL_POINT_SMOOTH);
+         }
+         glPointSize(vertices_size);
+         glBegin(GL_POINTS);
+         for (size_t i = 0; i != new_state.v_count; ++i) {
+           glVertex3d(new_state.v_array[i].x, new_state.v_array[i].y,
+                      new_state.v_array[i].z);
+         }
+         glEnd();
   }
-  glEnd();
+
+  glLineWidth(edges_thickness);
+  glLineStipple(1, 0x00F0);
+  if (is_edges_solid) {
+      glDisable(GL_LINE_STIPPLE);
+  } else {
+      glEnable(GL_LINE_STIPPLE);
+  }
   for (size_t i = 0; i < initial_state.f_count; ++i) {
       const auto& face = initial_state.f_array[i];
       glBegin(GL_LINES);
@@ -121,7 +132,7 @@ void MyGLWidget::setProjection() {
     GLfloat fov = 60.0 * M_PI / 180;
     GLfloat near = 1 / tan(fov / 2);
     if(is_parallel_projection) {
-        glOrtho(-2., 2., -2., 2., -10, 1.);
+        glOrtho(-2., 2., -2., 2., -10, 10.);
     } else {
         glFrustum(-0.5, 0.5, -0.5, 0.5, near, 10.);
         glTranslated(0, 0, -near * 3);

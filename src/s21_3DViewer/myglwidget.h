@@ -14,6 +14,7 @@
 #include <QLineEdit>
 
 #include "ObjectParameters.h"
+#include "mainwindow.h"
 
 extern "C" {
 #include "../backend/3d_viewer.h"
@@ -31,8 +32,11 @@ class MyGLWidget : public QOpenGLWidget {
   QColor bg_colour;
   QColor edges_colour;
   QColor vertices_colour;
-  bool is_edges_solid;
-  bool is_parallel_projection;
+  bool is_edges_solid = true;
+  bool is_parallel_projection = true;
+  int vertices_type = DisplayMethod::none;
+  GLfloat edges_thickness = 1.;
+  GLfloat vertices_size = 1.;
   QLineEdit *vertices_count;
   QLineEdit *edges_count;
 

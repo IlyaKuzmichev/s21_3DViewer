@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+#include <QButtonGroup>
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QOpenGLWidget>
@@ -68,7 +69,32 @@ void MainWindow::SaveSettings() {
     QSettings settings("Aboba Team", "3DViewer");
     settings.setValue("bg_colour", ui->GLWidget->bg_colour);
     settings.setValue("projection", ui->GLWidget->is_parallel_projection);
+    settings.setValue("edges_type", ui->GLWidget->is_edges_solid);
+    settings.setValue("edges_thickness", ui->GLWidget->edges_thickness);
+    settings.setValue("vertices_type", ui->GLWidget->vertices_type);
+    settings.setValue("vertices_size", ui->GLWidget->vertices_size);
 }
+
+void MainWindow::LoadSettings() {
+    QSettings settings("Aboba Team", "3DViewer");
+    ui->GLWidget->bg_colour = settings.value("bg_colour", QColor(Qt::black)).value<QColor>();
+    ui->GLWidget->is_parallel_projection = settings.value("projection", true).value<bool>();
+    if (ui->GLWidget->is_parallel_projection == false) {
+        ui->radioButton_central->setChecked(true);
+    }
+    ui->GLWidget->is_edges_solid = settings.value("edges_type", true).value<bool>();
+    if (ui->GLWidget->is_edges_solid == false) {
+        ui->radioButton_edges_dashed->setChecked(true);
+    }
+    ui->GLWidget->edges_thickness = settings.value("edges_thickness", 1.).value<GLfloat>();
+    ui->slider_thickness->setValue(static_cast<int>(5. * ui->GLWidget->edges_thickness));
+    ui->GLWidget->vertices_type = settings.value("vertices_type", 0.).value<int>();
+    if (ui->GLWidget->vertices_type != DisplayMethod::none) {
+        ui->GLWidget->vertices_type == DisplayMethod::circle ? ui->radioButton_display_circle->setChecked(true) : ui->radioButton_display_square->setChecked(true);
+    }
+    ui->GLWidget->vertices_size = settings.value("vertices_size", 1.).value<GLfloat>();
+    ui->slider_size->setValue(static_cast<int>(ui->GLWidget->vertices_size));
+;}
 
 void MainWindow::setMouseRotation(double x, double y) {
     ui->line_rotate_x->setText(QString::number(ui->scroll_rotate_x->value() + static_cast<int>(x * 3. / 20.)));
@@ -80,18 +106,6 @@ void MainWindow::setMouseRotation(double x, double y) {
 
 void MainWindow::setWheelScale(int increase_scale) {
      ui->scroll_scale->setValue(ui->scroll_scale->value() + increase_scale);
-}
-
-void MainWindow::LoadSettings() {
-    QSettings settings("Aboba Team", "3DViewer");
-    ui->GLWidget->bg_colour = settings.value("bg_colour", QColor(Qt::black)).value<QColor>();
-    ui->GLWidget->is_parallel_projection = settings.value("projection", true).value<bool>();
-    if (ui->GLWidget->is_parallel_projection == false) {
-        ui->radioButton_central->setChecked(true);
-    }
-
-//    QString filePath = settings.fileName();
-//    qDebug() << filePath;
 }
 
 void MainWindow::on_button_open_clicked() {
@@ -150,17 +164,53 @@ void MainWindow::updateParams(int) {
     emit repaintObject(&params);
 }
 
-void MainWindow::on_radioButton_parallel_pressed()
+
+void MainWindow::on_radioButton_parallel_toggled(bool checked)
 {
-    ui->GLWidget->is_parallel_projection = true;
+    ui->GLWidget->is_parallel_projection = checked;
+    emit updateWidget();
+}
+
+
+void MainWindow::on_radioButton_edges_solid_toggled(bool checked)
+{
+    ui->GLWidget->is_edges_solid = checked;
+    emit updateWidget();
+}
+
+
+void MainWindow::on_slider_thickness_valueChanged(int value)
+{
+    ui->GLWidget->edges_thickness = static_cast<GLfloat>(value / 5.);
     emit updateWidget();
 }
 
 
 
-void MainWindow::on_radioButton_central_pressed()
+void MainWindow::on_radioButton_display_none_pressed()
 {
-    ui->GLWidget->is_parallel_projection = false;
+    ui->GLWidget->vertices_type = DisplayMethod::none;
+    emit updateWidget();
+}
+
+
+void MainWindow::on_radioButton_display_circle_pressed()
+{
+     ui->GLWidget->vertices_type = DisplayMethod::circle;
+     emit updateWidget();
+}
+
+
+void MainWindow::on_radioButton_display_square_pressed()
+{
+    ui->GLWidget->vertices_type = DisplayMethod::square;
+    emit updateWidget();
+}
+
+
+void MainWindow::on_slider_size_valueChanged(int value)
+{
+    ui->GLWidget->vertices_size = static_cast<GLfloat>(value);
     emit updateWidget();
 }
 

@@ -19,6 +19,12 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+enum DisplayMethod {
+    none = 0,
+    circle,
+    square
+};
+
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
@@ -48,19 +54,30 @@ class MainWindow : public QMainWindow {
 
   void updateParams(int);
 
-  void on_radioButton_parallel_pressed();
-
-  void on_radioButton_central_pressed();
-
   void setMouseRotation(double x, double y);
 
   void setWheelScale(int increase_scale);
+
+  void on_radioButton_parallel_toggled(bool checked);
+
+  void on_radioButton_edges_solid_toggled(bool checked);
+
+  void on_slider_thickness_valueChanged(int value);
+
+  void on_radioButton_display_none_pressed();
+
+  void on_radioButton_display_circle_pressed();
+
+  void on_radioButton_display_square_pressed();
+
+  void on_slider_size_valueChanged(int value);
 
 private:
   Ui::MainWindow *ui;
   std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;
   std::vector<std::unique_ptr<LineEditAdapter>> lineEditAdapters;
   ObjectParameters params = {};
+  void groupButtons();
 
  signals:
   void openFile();
