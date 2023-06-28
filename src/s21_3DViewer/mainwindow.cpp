@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 
   LoadSettings();
 
-  for (auto obj_pair :
+  for (auto& obj_pair :
        {std::make_pair(ui->line_translate_x, ui->scroll_translate_x),
         std::make_pair(ui->line_translate_y, ui->scroll_translate_y),
         std::make_pair(ui->line_translate_z, ui->scroll_translate_z)}) {
@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
             SLOT(onLineTranslateReturnPressed()));
   }
 
-  for (auto obj_pair :
+  for (auto& obj_pair :
        {std::make_pair(ui->line_rotate_x, ui->scroll_rotate_x),
         std::make_pair(ui->line_rotate_y, ui->scroll_rotate_y),
         std::make_pair(ui->line_rotate_z, ui->scroll_rotate_z)}) {
@@ -45,6 +45,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(obj_pair.first, SIGNAL(returnPressed()),
             scrollBarAdapters.back().get(),
             SLOT(onLineRotateReturnPressed()));
+  }
+
+  for (auto& obj_pair :
+        {std::make_pair(ui->pushButton_bg_colour, &ui->GLWidget->bg_colour),
+         std::make_pair(ui->pushButton_edges_colour, &ui->GLWidget->edges_colour),
+         std::make_pair(ui->pushButton_vertices_colour, &ui->GLWidget->vertices_colour)}) {
+      colorAdapters.push_back(ColorAdapter::create(this, obj_pair.second));
+      connect(obj_pair.first, SIGNAL(pressed()), colorAdapters.back().get(), SLOT(onButtonPressed()));
   }
   connect(ui->scroll_scale, SIGNAL(valueChanged(int)), this, SLOT(updateParams(int)));
   connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
@@ -140,18 +148,6 @@ void MainWindow::on_line_scale_returnPressed()
 {
     ui->scroll_scale->setValue(
         static_cast<int>(10. * log10(ui->line_scale->text().toDouble())));
-}
-
-void MainWindow::on_pushButton_edges_colour_pressed() {
-  QColor new_colour = QColorDialog::getColor();
-}
-
-void MainWindow::on_pushButton_vertices_colour_pressed() {
-  QColor new_colour = QColorDialog::getColor();
-}
-
-void MainWindow::on_pushButton_bg_colour_pressed() {
-   ui->GLWidget->bg_colour = QColorDialog::getColor();
 }
 
 void MainWindow::updateParams(int) {

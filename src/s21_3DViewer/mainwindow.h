@@ -13,6 +13,7 @@ extern "C" {
 #include "ObjectParameters.h"
 #include "lineeditadapter.h"
 #include "scrollbaradapter.h"
+#include "coloradapter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -47,12 +48,6 @@ class MainWindow : public QMainWindow {
 
   void on_scroll_scale_valueChanged(int value);
 
-  void on_pushButton_edges_colour_pressed();
-
-  void on_pushButton_vertices_colour_pressed();
-
-  void on_pushButton_bg_colour_pressed();
-
   void updateParams(int);
 
   void setMouseRotation(double x, double y);
@@ -73,6 +68,7 @@ private:
   Ui::MainWindow *ui;
   std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;
   std::vector<std::unique_ptr<LineEditAdapter>> lineEditAdapters;
+  std::vector<std::unique_ptr<ColorAdapter>> colorAdapters;
   ObjectParameters params = {};
   QButtonGroup group;
   void groupButtons();

@@ -30,6 +30,8 @@ set(PROJECT_SOURCES
     ObjectParameters.h
 
 # Adapters
+    coloradapter.h
+    coloradapter.cpp
     scrollbaradapter.h
     scrollbaradapter.cpp
     lineeditadapter.h

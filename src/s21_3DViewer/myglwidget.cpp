@@ -78,13 +78,10 @@ void MyGLWidget::GoParse() {
   vertices_count->setText(QString::number(initial_state.v_count));
   edges_count->setText(QString::number(initial_state.e_count));
   // this is BAD code
-  qDebug() << normalized_state.x_min << " " << normalized_state.x_max << " " << normalized_state.y_min << " " << normalized_state.y_max << '\n';
   update();
 }
 
 void MyGLWidget::free_memory(object_t* obj) {
-    qDebug() << obj->v_array;
-    qDebug() << obj->f_array;
     if (obj->f_count > 0) {
         for (size_t i = 0; i < obj->f_count; ++i) {
             free(obj->f_array[i].v_array);
