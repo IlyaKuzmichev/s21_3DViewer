@@ -123,19 +123,21 @@ void MainWindow::setWheelScale(int increase_scale) {
 void MainWindow::on_button_open_clicked() {
   QString fileName = QFileDialog::getOpenFileName(this, "Open File", "/home",
                                                   "Object files (*.obj)");
-  ui->line_filepath->setText(fileName);
-  ui->GLWidget->path = fileName;
-  ui->scroll_rotate_x->setValue(0);
-  ui->scroll_rotate_y->setValue(0);
-  ui->scroll_rotate_z->setValue(0);
-  ui->scroll_translate_x->setValue(0);
-  ui->scroll_translate_y->setValue(0);
-  ui->scroll_translate_z->setValue(0);
-  ui->scroll_scale->setValue(0);
-  ui->line_vertex->setText("Get from GL Widget");
-  ui->line_edge->setText("Need to count");
+  if (!fileName.isEmpty()) {
+      ui->line_filepath->setText(fileName);
+      ui->GLWidget->path = fileName;
+      ui->scroll_rotate_x->setValue(0);
+      ui->scroll_rotate_y->setValue(0);
+      ui->scroll_rotate_z->setValue(0);
+      ui->scroll_translate_x->setValue(0);
+      ui->scroll_translate_y->setValue(0);
+      ui->scroll_translate_z->setValue(0);
+      ui->scroll_scale->setValue(0);
+      ui->line_vertex->setText("Get from GL Widget");
+      ui->line_edge->setText("Need to count");
 
-  emit openFile();
+      emit openFile();
+  }
 }
 
 void MainWindow::on_scroll_scale_valueChanged(int value)
