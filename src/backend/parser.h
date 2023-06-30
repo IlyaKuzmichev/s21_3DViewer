@@ -7,14 +7,14 @@
  * @brief Enumeration of errors, occured in parsing
  */
 enum parse_error {
+  /// all are right!
+  status_ok,
   /// file cannot be opened
   cannot_open_file,
   /// format of file is incorrect
   incorrect_format,
   /// error in allocation of memory
-  memory_allocation_error,
-  /// all are right!
-  status_ok
+  memory_allocation_error
 };
 
 /**
