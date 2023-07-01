@@ -38,7 +38,7 @@
    <string>HardCoded 3DViewer_Aboba</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QOpenGLWidget" name="openGLWidget">
+   <widget class="MyGLWidget" name="GLWidget">
     <property name="geometry">
      <rect>
       <x>650</x>
@@ -224,7 +224,7 @@
      <string>Choose BackGround Colour</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -538,10 +538,10 @@
        <item row="11" column="0">
         <widget class="QScrollBar" name="scroll_scale">
          <property name="minimum">
-          <number>-10</number>
+          <number>-100</number>
          </property>
          <property name="maximum">
-          <number>10</number>
+          <number>100</number>
          </property>
          <property name="singleStep">
           <number>1</number>
@@ -634,6 +634,9 @@
            <property name="text">
             <string>Parallel</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item row="0" column="1">
@@ -645,6 +648,9 @@
            </property>
            <property name="text">
             <string>Central</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -698,7 +704,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -734,6 +740,9 @@
            </property>
            <property name="text">
             <string>Solid</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -779,6 +788,12 @@
        </item>
        <item>
         <widget class="QSlider" name="slider_thickness">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -795,7 +810,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -844,6 +859,9 @@
            </property>
            <property name="text">
             <string>None</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -941,6 +959,12 @@
            <height>25</height>
           </size>
          </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>20</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -971,21 +995,21 @@
     <property name="title">
      <string>Save as...</string>
     </property>
-    <addaction name="action_BMP"/>
-    <addaction name="action_JPEG"/>
+    <addaction name="action_image"/>
     <addaction name="action_GIF"/>
    </widget>
    <addaction name="menuSave_as"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action_BMP">
+  <action name="action_image">
    <property name="text">
-    <string>.BMP</string>
+    <string>.BMP or .JPEG</string>
    </property>
-  </action>
-  <action name="action_JPEG">
-   <property name="text">
-    <string>.JPEG</string>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;image&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Meta+S</string>
    </property>
   </action>
   <action name="action_GIF">
@@ -994,6 +1018,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyGLWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">myglwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

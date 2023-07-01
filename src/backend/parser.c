@@ -11,6 +11,7 @@ static void set_vertices_and_faces_count(FILE *f, object_t *obj);
 static size_t get_vertices_count_in_f(const char *line);
 static size_t fill_face(const char *line, object_t *obj, size_t last_v_index,
                         size_t last_f_index);
+void check_minmax(object_t *obj, size_t last_v_index);
 
 bool starts_with(const char *str, const char *pattern) {
   return strncmp(str, pattern, strlen(pattern)) == 0;
@@ -24,6 +25,7 @@ void set_vertices_and_faces_count(FILE *f, object_t *obj) {
   ssize_t character_count = 0;
   obj->v_count = 0;
   obj->f_count = 0;
+  obj->e_count = 0;
 
   while ((character_count = getline(&line, &linecapp, f)),
          character_count > 0) {
@@ -65,7 +67,7 @@ size_t fill_face(const char *line, object_t *obj, size_t last_v_index,
     } else {
       v_number -= 1;
     }
-    face->v_array[v_count] = &obj->v_array[v_number];
+    face->v_array[v_count] = v_number;
     next_lf = strchr(next_lf + 1, ' ');
     ++v_count;
   }
@@ -94,17 +96,24 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
       sscanf(line + strlen("v "), "%lf %lf %lf", &obj->v_array[last_v_index].x,
              &obj->v_array[last_v_index].y,
              &obj->v_array[last_v_index].z);  // maybe < 3
+      check_minmax(obj, last_v_index);
       ++last_v_index;
     } else if (starts_with(line, "f ")) {
       size_t v_count = get_vertices_count_in_f(line);
+      obj->e_count +=
+          (v_count > 2) ? v_count : (v_count - 1);  // assumes v_count > 0
       obj->f_array[last_f_index].v_count = v_count;
       obj->f_array[last_f_index].v_array =
-          (point_t **)malloc(v_count * sizeof(point_t *));
+          (uint64_t *)malloc(v_count * sizeof(uint64_t));
 
       result = fill_face(line, obj, last_v_index, last_f_index);
-      // result can be equal memory_allocation_error
-      // we need to free all allocated memory!!!
       ++last_f_index;
+    }
+  }
+
+  if (result != status_ok) {
+    for (size_t i = 0; i < last_f_index; ++i) {
+      free(obj->f_array[i].v_array);
     }
   }
 
@@ -113,7 +122,20 @@ static int fill_vertices_and_faces(FILE *f, object_t *obj) {
   return result;
 }
 
-int parse_obj_file(char *path, object_t *obj) {
+void check_minmax(object_t *obj, size_t last_v_index) {
+  if (obj->v_array[last_v_index].x < obj->x_min) {
+    obj->x_min = obj->v_array[last_v_index].x;
+  } else if (obj->v_array[last_v_index].x > obj->x_max) {
+    obj->x_max = obj->v_array[last_v_index].x;
+  }
+  if (obj->v_array[last_v_index].y < obj->y_min) {
+    obj->y_min = obj->v_array[last_v_index].y;
+  } else if (obj->v_array[last_v_index].y > obj->y_max) {
+    obj->y_max = obj->v_array[last_v_index].y;
+  }
+}
+
+int parse_obj_file(const char *path, object_t *obj) {
   enum parse_error result = status_ok;
   FILE *f = fopen(path, "r");
   if (f == NULL) {
@@ -128,7 +150,17 @@ int parse_obj_file(char *path, object_t *obj) {
     } else {
       obj->f_array = (face_t *)malloc(obj->f_count * sizeof(face_t));
     }
+    obj->x_min = 0;
+    obj->x_max = 0;
+    obj->y_min = 0;
+    obj->y_max = 0;
     result = fill_vertices_and_faces(f, obj);
+
+    if (result != status_ok) {
+      free(obj->v_array);
+      free(obj->f_array);
+      memset(obj, 0, sizeof(object_t));
+    }
   }
   fclose(f);
 

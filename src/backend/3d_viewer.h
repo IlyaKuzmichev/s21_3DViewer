@@ -51,11 +51,15 @@
  * @brief Union for point structure
  */
 typedef union point_u {
-  double arr[3];  ///> to call as array
+  // to call as array
+  double arr[3];
   struct {
-    double x;  ///> x coord
-    double y;  ///> y coord
-    double z;  ///> z coord
+    // x coord
+    double x;
+    // y coord
+    double y;
+    // z coord
+    double z;
   };
 } point_t;
 
@@ -64,8 +68,10 @@ typedef union point_u {
  * @brief face's structure with various points quantity
  */
 typedef struct face_s {
-  uint64_t v_count;   ///> quantity of faces
-  point_t** v_array;  ///> dynamicly allocated array of points
+  // quantity of points
+  uint64_t v_count;
+  // dynamicly allocated array of points indexes
+  uint64_t* v_array;
 } face_t;
 
 /**
@@ -73,11 +79,18 @@ typedef struct face_s {
  * @brief Parsed .obj structure
  */
 typedef struct object_s {
-  uint64_t v_count;                   ///> number of vertexes
-  uint64_t f_count;                   ///> number of faces
-  double x_min, x_max, y_min, y_max;  ///> limit values of the object
-  point_t* v_array;  ///> matrice of vertexes (each point has 3 coordinates)
-  face_t* f_array;   ///> array of faces
+  // number of vertexes
+  uint64_t v_count;
+  // number of faces
+  uint64_t f_count;
+  // number of edges;
+  uint64_t e_count;
+  // limit values of the object
+  double x_min, x_max, y_min, y_max;
+  // matrice of vertexes (each point has 3 coordinates)
+  point_t* v_array;
+  // array of faces
+  face_t* f_array;
 } object_t;
 
 /**
@@ -90,7 +103,7 @@ typedef enum axis_t { X_AXIS = 0, Y_AXIS, Z_AXIS } axis_t;
 // Affine transformations
 
 /**
- * @brief Fucntion fo translate model by a given distance
+ * @brief Function to translate model by a given distance
  *
  * @param obj --- pointer to object structure
  * @param axis --- x, y or z
@@ -99,7 +112,7 @@ typedef enum axis_t { X_AXIS = 0, Y_AXIS, Z_AXIS } axis_t;
 void translate_object(object_t* obj, axis_t axis, double shift);
 
 /**
- * @brief Fucntion fo rotate model by a given angle relative to its X axis
+ * @brief Function to rotate model by a given angle relative to its X axis
  *
  * @param obj - pointer to object structure
  * @param angle - value of the angle to rotate
@@ -107,7 +120,7 @@ void translate_object(object_t* obj, axis_t axis, double shift);
 void rotate_ox_object(object_t* obj, double angle);
 
 /**
- * @brief Fucntion fo rotate model by a given angle relative to its Y axis
+ * @brief Function to rotate model by a given angle relative to its Y axis
  *
  * @param obj - pointer to object structure
  * @param angle - value of the angle to rotate
@@ -115,7 +128,7 @@ void rotate_ox_object(object_t* obj, double angle);
 void rotate_oy_object(object_t* obj, double angle);
 
 /**
- * @brief Fucntion fo rotate model by a given angle relative to its Z axis
+ * @brief Function to rotate model by a given angle relative to its Z axis
  *
  * @param obj - pointer to object structure
  * @param angle - value of the angle to rotate
@@ -123,9 +136,26 @@ void rotate_oy_object(object_t* obj, double angle);
 void rotate_oz_object(object_t* obj, double angle);
 
 /**
- * @brief Fucntion fo scale model by a given value
+ * @brief Function to scale model by a given value
  *
  * @param obj - pointer to object structure
  * @param scale - value to scale
  */
 void scale_object(object_t* obj, double scale);
+
+/**
+ * @brief Normalize object to show it in Widget 1x1
+ *
+ * @param obj - object, needs to be normalized
+ * @param normalized_obj - pointer to new normalized object
+ */
+
+void normalize_object(const object_t obj, object_t* normalized_obj);
+
+// Affine transformations for points
+
+void translate_point(point_t* point, axis_t axis, double shift);
+void rotate_ox_point(point_t* point, double angle);
+void rotate_oy_point(point_t* point, double angle);
+void rotate_oz_point(point_t* point, double angle);
+void scale_point(point_t* point, double scale);

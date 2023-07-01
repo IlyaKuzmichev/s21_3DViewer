@@ -33,3 +33,5 @@
 
 # Custom
 *.DS_Store
+*.txt.user*
+*build-s21*
