@@ -995,21 +995,21 @@
     <property name="title">
      <string>Save as...</string>
     </property>
-    <addaction name="action_BMP"/>
-    <addaction name="action_JPEG"/>
+    <addaction name="action_image"/>
     <addaction name="action_GIF"/>
    </widget>
    <addaction name="menuSave_as"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action_BMP">
+  <action name="action_image">
    <property name="text">
-    <string>.BMP</string>
+    <string>.BMP or .JPEG</string>
    </property>
-  </action>
-  <action name="action_JPEG">
-   <property name="text">
-    <string>.JPEG</string>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;image&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Meta+S</string>
    </property>
   </action>
   <action name="action_GIF">

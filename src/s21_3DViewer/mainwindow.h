@@ -63,6 +63,7 @@ class MainWindow : public QMainWindow {
   void onRadioButtonDisplayPressed(int value);
 
   void on_slider_size_valueChanged(int value);
+  void on_action_image_triggered();
 
 private:
   Ui::MainWindow *ui;

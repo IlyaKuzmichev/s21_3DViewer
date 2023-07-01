@@ -202,3 +202,10 @@ void MainWindow::on_slider_size_valueChanged(int value)
     emit updateWidget();
 }
 
+
+void MainWindow::on_action_image_triggered()
+{
+    QString file = QFileDialog::getSaveFileName(this, "Save as...", "name", "BMP (*.bmp);; JPEG (*.jpg *.jpeg)");
+    ui->GLWidget->grab().save(file);
+}
+

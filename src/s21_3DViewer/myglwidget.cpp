@@ -105,7 +105,7 @@ void MyGLWidget::UpdateObject(ObjectParameters *params) {
 
     translate_point(new_state.v_array + i, X_AXIS, params->translate_x);
     translate_point(new_state.v_array + i, Y_AXIS, params->translate_y);
-    translate_point(new_state.v_array + i, Z_AXIS, params->translate_z);
+    translate_point(new_state.v_array + i, Z_AXIS, params->translate_z * 4.);
   }
   update();
 }
@@ -137,7 +137,7 @@ void MyGLWidget::setProjection() {
     if(is_parallel_projection) {
         glOrtho(-2., 2., -2., 2., -10, 10.);
     } else {
-        glFrustum(-0.5, 0.5, -0.5, 0.5, near, 10.);
+        glFrustum(-0.5, 0.5, -0.5, 0.5, near, 100.);
         glTranslated(0, 0, -near * 3);
     }
 }
