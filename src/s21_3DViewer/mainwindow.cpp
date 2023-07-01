@@ -80,6 +80,8 @@ MainWindow::~MainWindow() {
 void MainWindow::SaveSettings() {
     QSettings settings("Aboba Team", "3DViewer");
     settings.setValue("bg_colour", ui->GLWidget->bg_colour);
+    settings.setValue("edges_colour", ui->GLWidget->edges_colour);
+    settings.setValue("vertices_colour", ui->GLWidget->vertices_colour);
     settings.setValue("projection", ui->GLWidget->is_parallel_projection);
     settings.setValue("edges_type", ui->GLWidget->is_edges_solid);
     settings.setValue("edges_thickness", ui->GLWidget->edges_thickness);
@@ -89,7 +91,9 @@ void MainWindow::SaveSettings() {
 
 void MainWindow::LoadSettings() {
     QSettings settings("Aboba Team", "3DViewer");
-    ui->GLWidget->bg_colour = settings.value("bg_colour", QColor(Qt::black)).value<QColor>();
+    ui->GLWidget->bg_colour = settings.value("bg_colour", QColor(Qt::white)).value<QColor>();
+    ui->GLWidget->edges_colour = settings.value("edges_colour", QColor(Qt::red)).value<QColor>();
+    ui->GLWidget->vertices_colour = settings.value("vertices_colour", QColor(Qt::black)).value<QColor>();
     ui->GLWidget->is_parallel_projection = settings.value("projection", true).value<bool>();
     if (ui->GLWidget->is_parallel_projection == false) {
         ui->radioButton_central->setChecked(true);
