@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QOpenGLWidget>
 #include <QSettings>
+#include <QTimer>
 #include <initializer_list>
 #include <tuple>
 
@@ -12,7 +13,7 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
-
+  timer = new QTimer(this);
   LoadSettings();
 
   for (auto& obj_pair :
@@ -221,4 +222,32 @@ void MainWindow::on_action_image_triggered() {
   QString file = QFileDialog::getSaveFileName(
       this, "Save as...", "name", "BMP (*.bmp);; JPEG (*.jpg *.jpeg)");
   ui->GLWidget->grab().save(file);
+}
+
+void MainWindow::on_action_GIF_triggered() {
+  if (gif) {
+    delete gif;
+  }
+  gif = new QGifImage;
+  gif->setDefaultDelay(100);
+  frame_counter = 0;
+  connect(timer, SIGNAL(timeout()), this, SLOT(saveGifFrame()));
+  timer->start(100);
+}
+
+void MainWindow::saveGifFrame() {
+  if (frame_counter < 50) {
+    QImage frame = ui->GLWidget->grabFramebuffer().scaled(
+        640, 480, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    gif->addFrame(frame);
+    ++frame_counter;
+  } else {
+    timer->stop();
+    disconnect(timer, SIGNAL(timeout()), this, SLOT(saveGifFrame()));
+    QString gifSavePath =
+        QFileDialog::getSaveFileName(this, "Save as...", "name", "GIF (*.gif)");
+    if (!gifSavePath.isNull()) {
+      gif->save(gifSavePath);
+    }
+  }
 }

@@ -36,6 +36,21 @@ set(PROJECT_SOURCES
     scrollbaradapter.cpp
     lineeditadapter.h
     lineeditadapter.cpp
+
+# QTGifImage
+    ./QtGifImage/src/gifimage/qgifimage.h
+    ./QtGifImage/src/gifimage/qgifimage.cpp
+    ./QtGifImage/src/gifimage/qgifglobal.h
+    ./QtGifImage/src/gifimage/qgifimage_p.h
+    ./QtGifImage/src/3rdParty/giflib/gif_lib.h
+    ./QtGifImage/src/3rdParty/giflib/dgif_lib.c
+    ./QtGifImage/src/3rdParty/giflib/egif_lib.c
+    ./QtGifImage/src/3rdParty/giflib/gif_err.c
+    ./QtGifImage/src/3rdParty/giflib/gif_font.c
+    ./QtGifImage/src/3rdParty/giflib/gif_hash.c
+    ./QtGifImage/src/3rdParty/giflib/gifalloc.c
+    ./QtGifImage/src/3rdParty/giflib/quantize.c
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

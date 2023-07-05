@@ -14,6 +14,7 @@ extern "C" {
 #include "coloradapter.h"
 #include "lineeditadapter.h"
 #include "scrollbaradapter.h"
+#include "QtGifImage/src/gifimage/qgifimage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -59,9 +60,14 @@ class MainWindow : public QMainWindow {
   void onRadioButtonDisplayPressed(int value);
 
   void on_slider_size_valueChanged(int value);
+
   void on_action_image_triggered();
 
- private:
+  void on_action_GIF_triggered();
+
+  void saveGifFrame();
+
+private:
   Ui::MainWindow *ui;
   std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;
   std::vector<std::unique_ptr<LineEditAdapter>> lineEditAdapters;
@@ -69,6 +75,9 @@ class MainWindow : public QMainWindow {
   ObjectParameters params = {};
   QButtonGroup group;
   void groupButtons();
+  QGifImage *gif = nullptr;
+  QTimer *timer;
+  uint8_t frame_counter;
 
  signals:
   void openFile();
