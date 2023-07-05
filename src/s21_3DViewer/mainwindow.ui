@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>170</width>
-    <height>25</height>
+    <width>1900</width>
+    <height>1300</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -46,6 +46,18 @@
       <width>1200</width>
       <height>1200</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>1200</width>
+      <height>1200</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>1200</width>
+      <height>1200</height>
+     </size>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
