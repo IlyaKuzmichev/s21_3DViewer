@@ -22,6 +22,8 @@ set(PROJECT_SOURCES
     mainwindow.ui
     myglwidget.h
     myglwidget.cpp
+    myobject.h
+    myobject.cpp
     ../backend/parser.h
     ../backend/3d_viewer.h
     ../backend/affine_transformations.c

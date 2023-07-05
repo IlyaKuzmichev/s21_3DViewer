@@ -11,10 +11,10 @@ extern "C" {
 }
 
 #include "ObjectParameters.h"
+#include "QtGifImage/src/gifimage/qgifimage.h"
 #include "coloradapter.h"
 #include "lineeditadapter.h"
 #include "scrollbaradapter.h"
-#include "QtGifImage/src/gifimage/qgifimage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -40,46 +40,34 @@ class MainWindow : public QMainWindow {
 
  private slots:
   void on_button_open_clicked();
-
   void on_line_scale_returnPressed();
-
   void on_scroll_scale_valueChanged(int value);
-
   void updateParams(int);
-
   void setMouseRotation(double x, double y);
-
   void setWheelScale(int increase_scale);
-
   void on_radioButton_parallel_toggled(bool checked);
-
   void on_radioButton_edges_solid_toggled(bool checked);
-
   void on_slider_thickness_valueChanged(int value);
-
   void onRadioButtonDisplayPressed(int value);
-
   void on_slider_size_valueChanged(int value);
-
   void on_action_image_triggered();
-
   void on_action_GIF_triggered();
-
   void saveGifFrame();
+  void setVF(uint64_t vertices, uint64_t faces);
 
-private:
+ private:
   Ui::MainWindow *ui;
   std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;
   std::vector<std::unique_ptr<LineEditAdapter>> lineEditAdapters;
   std::vector<std::unique_ptr<ColorAdapter>> colorAdapters;
   ObjectParameters params = {};
+  void translateConnector();
+  void rotateConnector();
+  void colourConnector();
   QButtonGroup group;
   void groupButtons();
   QGifImage *gif = nullptr;
-  QTimer *timer;
-  uint8_t frame_counter;
-
- signals:
-  void openFile();
+  QTimer *timer = nullptr;
+  uint8_t frame_counter = 0;
 };
 #endif  // MAINWINDOW_H

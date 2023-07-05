@@ -15,28 +15,13 @@
 
 #include "ObjectParameters.h"
 #include "mainwindow.h"
+#include "myobject.h"
 
 extern "C" {
 #include "../backend/3d_viewer.h"
 }
 
-class MyGLWidget : public QOpenGLWidget {
-  Q_OBJECT
-
- public:
-  MyGLWidget(QWidget *parent = nullptr);
-  ~MyGLWidget() {
-    free_memory(&initial_state);
-    normalized_state.f_count = 0;
-    new_state.f_count = 0;
-    free_memory(&normalized_state);
-    free_memory(&new_state);
-  }
-
-  QString path = NULL;
-  object_t initial_state = {0};
-  object_t normalized_state = {0};
-  object_t new_state = {0};
+typedef struct glsettings_s {
   QColor bg_colour;
   QColor edges_colour;
   QColor vertices_colour;
@@ -45,24 +30,32 @@ class MyGLWidget : public QOpenGLWidget {
   int vertices_type = DisplayMethod::none;
   GLfloat edges_thickness = 1.;
   GLfloat vertices_size = 1.;
-  QLineEdit *vertices_count;
-  QLineEdit *edges_count;
+} glsettings_t;
+
+class MyGLWidget : public QOpenGLWidget {
+  Q_OBJECT
+
+ public:
+  MyGLWidget(QWidget *parent = nullptr);
+  ~MyGLWidget() {}
+  void loadNewModel(const QString filename);
+  MyObject object;
+  glsettings_t WidgetSettings;
 
  private:
   QPoint lastPos;
   void setProjection();
   void drawVertices();
   void drawEdges();
-  void free_memory(object_t *obj);
 
  public slots:
-  void GoParse();
   void UpdateObject(ObjectParameters *params);
   void updateFrame();
 
  signals:
   void mouseTrigger(double x, double y);
   void wheelTrigger(int increase_scale);
+  void sendVF(uint64_t vertices, uint64_t faces);
 
  protected:
   void initializeGL() override;

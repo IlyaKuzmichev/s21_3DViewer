@@ -11,11 +11,44 @@
 #include "./ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+    : QMainWindow(parent), ui(new Ui::MainWindow), timer(new QTimer(0)) {
   ui->setupUi(this);
   timer = new QTimer(this);
   LoadSettings();
 
+  translateConnector();
+  rotateConnector();
+  colourConnector();
+
+  connect(ui->scroll_scale, SIGNAL(valueChanged(int)), this,
+          SLOT(updateParams(int)));
+  connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget,
+          SLOT(UpdateObject(ObjectParameters*)));
+  connect(ui->GLWidget, &MyGLWidget::mouseTrigger, this,
+          &MainWindow::setMouseRotation);
+  connect(ui->GLWidget, &MyGLWidget::wheelTrigger, this,
+          &MainWindow::setWheelScale);
+  connect(this, SIGNAL(updateWidget()), ui->GLWidget, SLOT(updateFrame()));
+  connect(ui->GLWidget, SIGNAL(sendVF(uint64_t, uint64_t)), this,
+          SLOT(setVF(uint64_t, uint64_t)));
+
+  group.addButton(ui->radioButton_display_none, DisplayMethod::none);
+  group.addButton(ui->radioButton_display_circle, DisplayMethod::circle);
+  group.addButton(ui->radioButton_display_square, DisplayMethod::square);
+  connect(&group, SIGNAL(idPressed(int)), this,
+          SLOT(onRadioButtonDisplayPressed(int)));
+}
+
+MainWindow::~MainWindow() {
+  SaveSettings();
+  if (gif) {
+    delete gif;
+  }
+  delete timer;
+  delete ui;
+}
+
+void MainWindow::translateConnector() {
   for (auto& obj_pair :
        {std::make_pair(ui->line_translate_x, ui->scroll_translate_x),
         std::make_pair(ui->line_translate_y, ui->scroll_translate_y),
@@ -32,7 +65,9 @@ MainWindow::MainWindow(QWidget* parent)
             scrollBarAdapters.back().get(),
             SLOT(onLineTranslateReturnPressed()));
   }
+}
 
+void MainWindow::rotateConnector() {
   for (auto& obj_pair :
        {std::make_pair(ui->line_rotate_x, ui->scroll_rotate_x),
         std::make_pair(ui->line_rotate_y, ui->scroll_rotate_y),
@@ -48,90 +83,78 @@ MainWindow::MainWindow(QWidget* parent)
     connect(obj_pair.first, SIGNAL(returnPressed()),
             scrollBarAdapters.back().get(), SLOT(onLineRotateReturnPressed()));
   }
+}
 
+void MainWindow::colourConnector() {
   for (auto& obj_pair :
-       {std::make_pair(ui->pushButton_bg_colour, &ui->GLWidget->bg_colour),
+       {std::make_pair(ui->pushButton_bg_colour,
+                       &ui->GLWidget->WidgetSettings.bg_colour),
         std::make_pair(ui->pushButton_edges_colour,
-                       &ui->GLWidget->edges_colour),
+                       &ui->GLWidget->WidgetSettings.edges_colour),
         std::make_pair(ui->pushButton_vertices_colour,
-                       &ui->GLWidget->vertices_colour)}) {
+                       &ui->GLWidget->WidgetSettings.vertices_colour)}) {
     colorAdapters.push_back(ColorAdapter::create(this, obj_pair.second));
     connect(obj_pair.first, SIGNAL(pressed()), colorAdapters.back().get(),
             SLOT(onButtonPressed()));
   }
-  connect(ui->scroll_scale, SIGNAL(valueChanged(int)), this,
-          SLOT(updateParams(int)));
-  connect(this, &MainWindow::openFile, ui->GLWidget, &MyGLWidget::GoParse);
-  connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget,
-          SLOT(UpdateObject(ObjectParameters*)));
-  connect(ui->GLWidget, &MyGLWidget::mouseTrigger, this,
-          &MainWindow::setMouseRotation);
-  connect(ui->GLWidget, &MyGLWidget::wheelTrigger, this,
-          &MainWindow::setWheelScale);
-  connect(this, SIGNAL(updateWidget()), ui->GLWidget, SLOT(updateFrame()));
-
-  // this is BAD code
-  ui->GLWidget->vertices_count = ui->line_vertex;
-  ui->GLWidget->edges_count = ui->line_edge;
-  // this is BAD code
-
-  group.addButton(ui->radioButton_display_none, DisplayMethod::none);
-  group.addButton(ui->radioButton_display_circle, DisplayMethod::circle);
-  group.addButton(ui->radioButton_display_square, DisplayMethod::square);
-  connect(&group, SIGNAL(idPressed(int)), this,
-          SLOT(onRadioButtonDisplayPressed(int)));
-}
-
-MainWindow::~MainWindow() {
-  SaveSettings();
-  delete ui;
 }
 
 void MainWindow::SaveSettings() {
   QSettings settings("Aboba Team", "3DViewer");
-  settings.setValue("bg_colour", ui->GLWidget->bg_colour);
-  settings.setValue("edges_colour", ui->GLWidget->edges_colour);
-  settings.setValue("vertices_colour", ui->GLWidget->vertices_colour);
-  settings.setValue("projection", ui->GLWidget->is_parallel_projection);
-  settings.setValue("edges_type", ui->GLWidget->is_edges_solid);
-  settings.setValue("edges_thickness", ui->GLWidget->edges_thickness);
-  settings.setValue("vertices_type", ui->GLWidget->vertices_type);
-  settings.setValue("vertices_size", ui->GLWidget->vertices_size);
+  settings.setValue("bg_colour", ui->GLWidget->WidgetSettings.bg_colour);
+  settings.setValue("edges_colour", ui->GLWidget->WidgetSettings.edges_colour);
+  settings.setValue("vertices_colour",
+                    ui->GLWidget->WidgetSettings.vertices_colour);
+  settings.setValue("projection",
+                    ui->GLWidget->WidgetSettings.is_parallel_projection);
+  settings.setValue("edges_type", ui->GLWidget->WidgetSettings.is_edges_solid);
+  settings.setValue("edges_thickness",
+                    ui->GLWidget->WidgetSettings.edges_thickness);
+  settings.setValue("vertices_type",
+                    ui->GLWidget->WidgetSettings.vertices_type);
+  settings.setValue("vertices_size",
+                    ui->GLWidget->WidgetSettings.vertices_size);
 }
 
 void MainWindow::LoadSettings() {
   QSettings settings("Aboba Team", "3DViewer");
-  ui->GLWidget->bg_colour =
+  ui->GLWidget->WidgetSettings.bg_colour =
       settings.value("bg_colour", QColor(Qt::white)).value<QColor>();
-  ui->GLWidget->edges_colour =
+  ui->GLWidget->WidgetSettings.edges_colour =
       settings.value("edges_colour", QColor(Qt::red)).value<QColor>();
-  ui->GLWidget->vertices_colour =
+  ui->GLWidget->WidgetSettings.vertices_colour =
       settings.value("vertices_colour", QColor(Qt::black)).value<QColor>();
-  ui->GLWidget->is_parallel_projection =
+  ui->GLWidget->WidgetSettings.is_parallel_projection =
       settings.value("projection", true).value<bool>();
-  if (ui->GLWidget->is_parallel_projection == false) {
+  if (ui->GLWidget->WidgetSettings.is_parallel_projection == false) {
     ui->radioButton_central->setChecked(true);
   }
-  ui->GLWidget->is_edges_solid =
+  ui->GLWidget->WidgetSettings.is_edges_solid =
       settings.value("edges_type", true).value<bool>();
-  if (ui->GLWidget->is_edges_solid == false) {
+  if (ui->GLWidget->WidgetSettings.is_edges_solid == false) {
     ui->radioButton_edges_dashed->setChecked(true);
   }
-  ui->GLWidget->edges_thickness =
+  ui->GLWidget->WidgetSettings.edges_thickness =
       settings.value("edges_thickness", 1.).value<GLfloat>();
   ui->slider_thickness->setValue(
-      static_cast<int>(5. * ui->GLWidget->edges_thickness));
-  ui->GLWidget->vertices_type =
+      static_cast<int>(5. * ui->GLWidget->WidgetSettings.edges_thickness));
+  ui->GLWidget->WidgetSettings.vertices_type =
       settings.value("vertices_type", 0.).value<int>();
-  if (ui->GLWidget->vertices_type != DisplayMethod::none) {
-    ui->GLWidget->vertices_type == DisplayMethod::circle
+  if (ui->GLWidget->WidgetSettings.vertices_type != DisplayMethod::none) {
+    ui->GLWidget->WidgetSettings.vertices_type == DisplayMethod::circle
         ? ui->radioButton_display_circle->setChecked(true)
         : ui->radioButton_display_square->setChecked(true);
   }
-  ui->GLWidget->vertices_size =
+  ui->GLWidget->WidgetSettings.vertices_size =
       settings.value("vertices_size", 1.).value<GLfloat>();
-  ui->slider_size->setValue(static_cast<int>(ui->GLWidget->vertices_size));
+  ui->slider_size->setValue(
+      static_cast<int>(ui->GLWidget->WidgetSettings.vertices_size));
   ;
+}
+
+void MainWindow::setVF(uint64_t vertices, uint64_t faces) {
+  ui->line_vertex->setText(QString::number(vertices));
+  ui->line_faces->setText(QString::number(faces));
 }
 
 void MainWindow::setMouseRotation(double x, double y) {
@@ -153,7 +176,6 @@ void MainWindow::on_button_open_clicked() {
                                                   "Object files (*.obj)");
   if (!fileName.isEmpty()) {
     ui->line_filepath->setText(fileName);
-    ui->GLWidget->path = fileName;
     ui->scroll_rotate_x->setValue(0);
     ui->scroll_rotate_y->setValue(0);
     ui->scroll_rotate_z->setValue(0);
@@ -161,8 +183,7 @@ void MainWindow::on_button_open_clicked() {
     ui->scroll_translate_y->setValue(0);
     ui->scroll_translate_z->setValue(0);
     ui->scroll_scale->setValue(0);
-
-    emit openFile();
+    ui->GLWidget->loadNewModel(fileName);
   }
 }
 
@@ -194,27 +215,28 @@ void MainWindow::updateParams(int) {
 }
 
 void MainWindow::on_radioButton_parallel_toggled(bool checked) {
-  ui->GLWidget->is_parallel_projection = checked;
+  ui->GLWidget->WidgetSettings.is_parallel_projection = checked;
   emit updateWidget();
 }
 
 void MainWindow::on_radioButton_edges_solid_toggled(bool checked) {
-  ui->GLWidget->is_edges_solid = checked;
+  ui->GLWidget->WidgetSettings.is_edges_solid = checked;
   emit updateWidget();
 }
 
 void MainWindow::on_slider_thickness_valueChanged(int value) {
-  ui->GLWidget->edges_thickness = static_cast<GLfloat>(value / 5.);
+  ui->GLWidget->WidgetSettings.edges_thickness =
+      static_cast<GLfloat>(value / 5.);
   emit updateWidget();
 }
 
 void MainWindow::onRadioButtonDisplayPressed(int value) {
-  ui->GLWidget->vertices_type = value;
+  ui->GLWidget->WidgetSettings.vertices_type = value;
   emit updateWidget();
 }
 
 void MainWindow::on_slider_size_valueChanged(int value) {
-  ui->GLWidget->vertices_size = static_cast<GLfloat>(value);
+  ui->GLWidget->WidgetSettings.vertices_size = static_cast<GLfloat>(value);
   emit updateWidget();
 }
 

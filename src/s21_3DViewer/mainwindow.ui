@@ -177,19 +177,19 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_edge">
+        <widget class="QLabel" name="label_face">
          <property name="font">
           <font>
            <pointsize>16</pointsize>
           </font>
          </property>
          <property name="text">
-          <string>Edge quantity</string>
+          <string>Faces quantity</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="line_edge">
+        <widget class="QLineEdit" name="line_faces">
          <property name="minimumSize">
           <size>
            <width>100</width>
