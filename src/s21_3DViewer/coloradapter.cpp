@@ -2,6 +2,4 @@
 
 #include <QColorDialog>
 
-void ColorAdapter::onButtonPressed() {
-    *color_ = QColorDialog::getColor();
-}
+void ColorAdapter::onButtonPressed() { *color_ = QColorDialog::getColor(); }

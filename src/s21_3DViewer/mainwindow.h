@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QButtonGroup>
+#include <QMainWindow>
 #include <memory>
 
 extern "C" {
@@ -11,9 +11,9 @@ extern "C" {
 }
 
 #include "ObjectParameters.h"
+#include "coloradapter.h"
 #include "lineeditadapter.h"
 #include "scrollbaradapter.h"
-#include "coloradapter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,11 +21,7 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-enum DisplayMethod {
-    none = 0,
-    circle,
-    square
-};
+enum DisplayMethod { none = 0, circle, square };
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -65,7 +61,7 @@ class MainWindow : public QMainWindow {
   void on_slider_size_valueChanged(int value);
   void on_action_image_triggered();
 
-private:
+ private:
   Ui::MainWindow *ui;
   std::vector<std::unique_ptr<ScrollBarAdapter>> scrollBarAdapters;
   std::vector<std::unique_ptr<LineEditAdapter>> lineEditAdapters;

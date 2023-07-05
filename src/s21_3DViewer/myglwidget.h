@@ -4,14 +4,14 @@
 #define GL_SILENCE_DEPRECATION
 
 #include <QColor>
+#include <QLineEdit>
 #include <QMouseEvent>
-#include <QWheelEvent>
 #include <QOpenGLBuffer>
 #include <QOpenGLFunctions>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLWidget>
+#include <QWheelEvent>
 #include <QtMath>
-#include <QLineEdit>
 
 #include "ObjectParameters.h"
 #include "mainwindow.h"
@@ -26,11 +26,11 @@ class MyGLWidget : public QOpenGLWidget {
  public:
   MyGLWidget(QWidget *parent = nullptr);
   ~MyGLWidget() {
-      free_memory(&initial_state);
-      normalized_state.f_count = 0;
-      new_state.f_count = 0;
-      free_memory(&normalized_state);
-      free_memory(&new_state);
+    free_memory(&initial_state);
+    normalized_state.f_count = 0;
+    new_state.f_count = 0;
+    free_memory(&normalized_state);
+    free_memory(&new_state);
   }
 
   QString path = NULL;
@@ -51,7 +51,9 @@ class MyGLWidget : public QOpenGLWidget {
  private:
   QPoint lastPos;
   void setProjection();
-  void free_memory(object_t* obj);
+  void drawVertices();
+  void drawEdges();
+  void free_memory(object_t *obj);
 
  public slots:
   void GoParse();
@@ -68,8 +70,7 @@ class MyGLWidget : public QOpenGLWidget {
   void resizeGL(int width, int height) override;
   void mousePressEvent(QMouseEvent *event) override;
   void mouseMoveEvent(QMouseEvent *event) override;
-  void wheelEvent(QWheelEvent* event) override;
-
+  void wheelEvent(QWheelEvent *event) override;
 };
 
 #endif  // MYGLWIDGET_H
