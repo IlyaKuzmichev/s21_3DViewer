@@ -39,10 +39,10 @@ class MyGLWidget : public QOpenGLWidget {
   MyGLWidget(QWidget *parent = nullptr);
   ~MyGLWidget() {}
   void loadNewModel(const QString filename);
-  MyObject object;
   glsettings_t WidgetSettings;
 
  private:
+  MyObject object;
   QPoint lastPos;
   void setProjection();
   void drawVertices();

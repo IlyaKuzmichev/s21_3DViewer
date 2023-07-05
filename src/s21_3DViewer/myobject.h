@@ -17,7 +17,7 @@ class MyObject {
 
   void Parsing();
   void UpdateObject(ObjectParameters* params);
-  object_t* GetPrintable();
+  const object_t* GetPrintable();
   void getVerticesAndFaces(uint64_t* vertices, uint64_t* faces) const;
   void clearContents();
 

@@ -28,7 +28,7 @@ void MyObject::UpdateObject(ObjectParameters* params) {
   }
 }
 
-object_t* MyObject::GetPrintable() { return &print_state; }
+const object_t* MyObject::GetPrintable() { return &print_state; }
 
 void MyObject::freeMemory(object_t* obj) {
   if (obj->f_count > 0) {

@@ -25,7 +25,7 @@ void MyGLWidget::paintGL() {
 }
 
 void MyGLWidget::drawVertices() {
-  object_t* obj = object.GetPrintable();
+  const object_t* obj = object.GetPrintable();
   if (WidgetSettings.vertices_type != DisplayMethod::none) {
     if (WidgetSettings.vertices_type == DisplayMethod::circle) {
       glEnable(GL_POINT_SMOOTH);
@@ -45,7 +45,7 @@ void MyGLWidget::drawVertices() {
 }
 
 void MyGLWidget::drawEdges() {
-  object_t* obj = object.GetPrintable();
+  const object_t* obj = object.GetPrintable();
   glLineWidth(WidgetSettings.edges_thickness);
   glLineStipple(1, 0x00F0);
   glColor3d(WidgetSettings.edges_colour.redF(),
