@@ -3,7 +3,6 @@
  *
  * This file contains Original Code created by
  * Michail Kopylov aka sarellad,
- * Igor Baidikov aka lorenttr,
  * Ilya Kuzmichev aka wilmerno.
  *
  * The Original Code and all software developed in the process of
@@ -17,7 +16,7 @@
 /* ==========================================================================*/
 
 /**
- * @author sarellad, lorenttr & wilmerno
+ * @author sarellad & wilmerno
  * @mainpage
  * 3dViewer_v1.0, backend realised in C language, gui written
  * on QT Creator
