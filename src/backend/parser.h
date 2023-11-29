@@ -1,5 +1,9 @@
 #pragma once
 
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "3d_viewer.h"
 
 /**

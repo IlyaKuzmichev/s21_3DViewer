@@ -2,16 +2,55 @@
 
 #define GNU_SOURCE
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
+// Auxiliary functions for parsing object files
 
+/**
+ * @brief Fucntion to check if the string starts with given pattern
+ *
+ * @param[in] str - string to check pattern in
+ * @param[in] pattern - pattern to find in the beginning
+ *
+ * @return Bool result true or false
+ */
 static bool starts_with(const char *str, const char *pattern);
+
+/**
+ * @brief Fucntion to count vertices and faces in .obj file
+ *
+ * @param[in] f - pointer to object file
+ * @param[out] obj - pointer to obj structure to write result of counting
+ */
 static void set_vertices_and_faces_count(FILE *f, object_t *obj);
+
+/**
+ * @brief Fucntion to count vertices amount in face
+ *
+ * @param[in] line - string to count amount of vertices indexes
+ *
+ * @return size_t value - amount of vertices
+ */
 static size_t get_vertices_count_in_f(const char *line);
+
+/**
+ * @brief Fucntion to fill face index array in object structure
+ *
+ * @param[in] line - string to read indexes of face
+ * @param[out] obj - pointer to obj structure
+ * @param[in] last_v_index - index of last point
+ * @param[in] last_f_index - index of last face
+ *
+ * @return error code (check enum parse_error)
+ */
 static size_t fill_face(const char *line, object_t *obj, size_t last_v_index,
                         size_t last_f_index);
-void check_minmax(object_t *obj, size_t last_v_index);
+
+/**
+ * @brief Fucntion to find minimum and maximum by x and y
+ *
+ * @param[out] obj - pointer to obj structure
+ * @param[in] last_v_index - index of last point
+ */
+static void check_minmax(object_t *obj, size_t last_v_index);
 
 bool starts_with(const char *str, const char *pattern) {
   return strncmp(str, pattern, strlen(pattern)) == 0;
@@ -75,7 +114,7 @@ size_t fill_face(const char *line, object_t *obj, size_t last_v_index,
   return status_ok;
 }
 
-static int fill_vertices_and_faces(FILE *f, object_t *obj) {
+int fill_vertices_and_faces(FILE *f, object_t *obj) {
   if (obj->v_array == NULL || (obj->f_array == NULL && obj->f_count != 0)) {
     return memory_allocation_error;
   }

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include <QDebug>
+#include <QElapsedTimer>
 
 MyGLWidget::MyGLWidget(QWidget* parrent) : QOpenGLWidget(parrent) {}
 
@@ -11,6 +12,8 @@ void MyGLWidget::initializeGL() { glEnable(GL_DEPTH_TEST); }
 void MyGLWidget::resizeGL(int w, int h) {}
 
 void MyGLWidget::paintGL() {
+  QElapsedTimer debug;
+  debug.start();
   setProjection();
   glClearColor(WidgetSettings.bg_colour.redF(),
                WidgetSettings.bg_colour.greenF(),
@@ -22,6 +25,8 @@ void MyGLWidget::paintGL() {
   glLoadIdentity();  // загружает единичную матрицу моделирования
   drawVertices();
   drawEdges();
+
+  qDebug() << "Time of drawing" << debug.elapsed()  << '\n';
 }
 
 void MyGLWidget::drawVertices() {

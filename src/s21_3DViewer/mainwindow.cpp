@@ -13,13 +13,13 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), timer(new QTimer(0)) {
   ui->setupUi(this);
-  timer = new QTimer(this);
   LoadSettings();
 
   translateConnector();
   rotateConnector();
   colourConnector();
 
+  connect(timer, SIGNAL(timeout()), this, SLOT(saveGifFrame()));
   connect(ui->scroll_scale, SIGNAL(valueChanged(int)), this,
           SLOT(updateParams(int)));
   connect(this, SIGNAL(repaintObject(ObjectParameters*)), ui->GLWidget,
@@ -253,7 +253,6 @@ void MainWindow::on_action_GIF_triggered() {
   gif = new QGifImage;
   gif->setDefaultDelay(100);
   frame_counter = 0;
-  connect(timer, SIGNAL(timeout()), this, SLOT(saveGifFrame()));
   timer->start(100);
 }
 
@@ -265,7 +264,6 @@ void MainWindow::saveGifFrame() {
     ++frame_counter;
   } else {
     timer->stop();
-    disconnect(timer, SIGNAL(timeout()), this, SLOT(saveGifFrame()));
     QString gifSavePath =
         QFileDialog::getSaveFileName(this, "Save as...", "name", "GIF (*.gif)");
     if (!gifSavePath.isNull()) {

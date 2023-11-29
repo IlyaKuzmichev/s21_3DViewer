@@ -51,14 +51,14 @@
  * @brief Union for point structure
  */
 typedef union point_u {
-  // to call as array
+  /// to call as array
   double arr[3];
   struct {
-    // x coord
+    /// x coord
     double x;
-    // y coord
+    /// y coord
     double y;
-    // z coord
+    /// z coord
     double z;
   };
 } point_t;
@@ -68,9 +68,9 @@ typedef union point_u {
  * @brief face's structure with various points quantity
  */
 typedef struct face_s {
-  // quantity of points
+  /// quantity of points
   uint64_t v_count;
-  // dynamicly allocated array of points indexes
+  /// dynamicly allocated array of points indexes
   uint64_t* v_array;
 } face_t;
 
@@ -79,17 +79,17 @@ typedef struct face_s {
  * @brief Parsed .obj structure
  */
 typedef struct object_s {
-  // number of vertexes
+  /// number of vertexes
   uint64_t v_count;
-  // number of faces
+  /// number of faces
   uint64_t f_count;
-  // number of edges;
+  /// number of edges;
   uint64_t e_count;
-  // limit values of the object
+  /// limit values of the object
   double x_min, x_max, y_min, y_max;
-  // matrice of vertexes (each point has 3 coordinates)
+  /// matrice of vertexes (each point has 3 coordinates)
   point_t* v_array;
-  // array of faces
+  /// array of faces
   face_t* f_array;
 } object_t;
 
@@ -154,8 +154,47 @@ void normalize_object(const object_t obj, object_t* normalized_obj);
 
 // Affine transformations for points
 
+/**
+ * @brief Function to translate point by a given distance
+ *
+ * @param point --- pointer to point structure
+ * @param axis --- x, y or z
+ * @param shift --- value of the shift
+ */
 void translate_point(point_t* point, axis_t axis, double shift);
+
+/**
+ * @brief Function to find the new position of the point with rotate by X
+ * transformation
+ *
+ * @param point - pointer to point structure
+ * @param angle - value of the angle to rotate
+ */
 void rotate_ox_point(point_t* point, double angle);
+
+/**
+ * @brief Function to find the new position of the point with rotate by Y
+ * transformation
+ *
+ * @param point - pointer to point structure
+ * @param angle - value of the angle to rotate
+ */
 void rotate_oy_point(point_t* point, double angle);
+
+/**
+ * @brief Function to find the new position of the point with rotate by Z
+ * transformation
+ *
+ * @param point - pointer to point structure
+ * @param angle - value of the angle to rotate
+ */
 void rotate_oz_point(point_t* point, double angle);
+
+/**
+ * @brief Function to find the new position of the point with scale
+ * transformation
+ *
+ * @param obj - pointer to point structure
+ * @param scale - value to scale
+ */
 void scale_point(point_t* point, double scale);
